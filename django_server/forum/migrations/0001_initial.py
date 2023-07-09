@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('title', models.CharField(max_length=255)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='forum.user')),
+                ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='django_server.user')),
             ],
         ),
         migrations.CreateModel(
@@ -41,8 +41,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('text', models.CharField(max_length=255)),
-                ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='forum.user')),
-                ('post_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='forum.post')),
+                ('author', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='django_server.user')),
+                ('post_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='django_server.post')),
             ],
         ),
     ]

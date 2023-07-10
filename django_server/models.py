@@ -5,6 +5,7 @@ from django.db import models
 
 
 class User(AbstractBaseUser):
+    db_table = 'users'
     id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
     google_id = models.CharField(max_length=255, unique=True)

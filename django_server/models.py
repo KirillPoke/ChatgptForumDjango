@@ -27,3 +27,5 @@ class Comment(Model):
     author = ForeignKey(User, on_delete=SET_NULL, null=True)
     text = CharField(max_length=255)
     post_id = ForeignKey(Post, on_delete=CASCADE)
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)

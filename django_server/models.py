@@ -11,7 +11,7 @@ class User(AbstractBaseUser):
     google_id = models.CharField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    USERNAME_FIELD = 'email'
 
 class Post(Model):
     db_table = 'posts'

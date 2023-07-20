@@ -5,14 +5,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainSlidingView
 
 from django_server.models import User
-from django_server.settings import GOOGLE_CLIENT_SECRET
+from django_server.settings import GOOGLE_CLIENT_ID
 from django_server.subserializers.auth import JWTSerializer
 from rest_framework.authtoken.models import Token
 
 
 def get_user_data(token):
     # validate the token and get the user information
-    idinfo = id_token.verify_oauth2_token(token, Request(), GOOGLE_CLIENT_SECRET)
+    idinfo = id_token.verify_oauth2_token(token, Request(), GOOGLE_CLIENT_ID)
     user_data = {
         'id': idinfo['sub'],
         'name': idinfo['name'],

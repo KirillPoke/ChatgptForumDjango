@@ -2,9 +2,10 @@ from django.db.models import Model, AutoField, ForeignKey, CASCADE, SET_NULL, Da
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
+from django.contrib.auth.models import PermissionsMixin
 
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     db_table = 'users'
     id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
@@ -12,6 +13,7 @@ class User(AbstractBaseUser):
     name = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = 'email'
+
 
 class Post(Model):
     db_table = 'posts'

@@ -48,7 +48,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_server.middlewares.JWTAuthenticationMiddleware.GoogleJWTValidationMiddleware',
 ]
 
 ROOT_URLCONF = 'django_server.urls'
@@ -75,11 +74,10 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.IsAuthenticated'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend',
     ]
 }
 # Database
@@ -133,4 +131,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
 CSRF_COOKIE_SECURE = False
+AUTH_USER_MODEL = 'django_server.User'
 from .local_settings import *

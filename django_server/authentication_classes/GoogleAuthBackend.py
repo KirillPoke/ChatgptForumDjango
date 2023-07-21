@@ -5,9 +5,11 @@ from google.auth.transport.requests import Request
 from django_server.local_settings import GOOGLE_CLIENT_ID
 from django_server.models import User
 from django.contrib.auth import login
+from rest_framework.authentication import BaseAuthentication
 
 
 class GoogleAuthBackend(BaseBackend):
+
     def authenticate(self, request, token=None):
         google_jwt_token = request.headers.get('Authorization')
         try:
@@ -28,3 +30,6 @@ class GoogleAuthBackend(BaseBackend):
             return User.objects.get(id=user_id)
         except User.DoesNotExist:
             return None
+
+    def authenticate_header(self, request):
+        return 'Google JWT token'

@@ -37,6 +37,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     objects = GoogleUserManager()
 
+    def __str__(self):
+        return self.email
+
 
 class Post(Model):
     id = AutoField(primary_key=True)

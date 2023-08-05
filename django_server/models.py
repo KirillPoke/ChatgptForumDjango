@@ -1,4 +1,4 @@
-from django.db.models import Model, AutoField, ForeignKey, CASCADE, SET_NULL, DateTimeField, CharField
+from django.db.models import Model, AutoField, ForeignKey, CASCADE, SET_NULL, DateTimeField, CharField, TextField
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
@@ -50,8 +50,8 @@ class Post(Model):
 
 class Comment(Model):
     id = AutoField(primary_key=True)
-    author = ForeignKey(User, on_delete=SET_NULL, null=True)
-    text = CharField(max_length=255)
+    author = ForeignKey(User, on_delete=SET_NULL, null=True, blank=True)
+    text = TextField(max_length=255)
     post_id = ForeignKey(Post, on_delete=CASCADE)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)

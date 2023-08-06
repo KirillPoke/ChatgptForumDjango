@@ -11,7 +11,7 @@ class CommentSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'post_id', 'author', 'text']
+        fields = ['id', 'post_id', 'author', 'text', 'is_prompt']
 
 
 class CommentSerializerPost(CommentSerializer):

@@ -55,3 +55,4 @@ class Comment(Model):
     post_id = ForeignKey(Post, on_delete=CASCADE)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
+    is_prompt = models.BooleanField(default=False)

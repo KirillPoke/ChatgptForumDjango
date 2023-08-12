@@ -1,6 +1,6 @@
-from django.db.models import Model, AutoField, ForeignKey, CASCADE, SET_NULL, DateTimeField, CharField, TextField
+from django.db.models import Model, AutoField, ForeignKey, CASCADE, SET_NULL, DateTimeField, CharField, TextField, \
+    BooleanField, EmailField
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.hashers import make_password
@@ -27,13 +27,13 @@ class GoogleUserManager(UserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    id = models.AutoField(primary_key=True)
-    email = models.EmailField(unique=True)
-    google_id = models.CharField(max_length=255, unique=True)
-    name = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_superuser = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
+    id = AutoField(primary_key=True)
+    email = EmailField(unique=True)
+    google_id = CharField(max_length=255, unique=True)
+    name = CharField(max_length=255)
+    created_at = DateTimeField(auto_now_add=True)
+    is_superuser = BooleanField(default=False)
+    is_staff = BooleanField(default=False)
     USERNAME_FIELD = 'email'
     objects = GoogleUserManager()
 
@@ -55,4 +55,22 @@ class Comment(Model):
     post_id = ForeignKey(Post, on_delete=CASCADE)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
-    is_prompt = models.BooleanField(default=False)
+    is_prompt = BooleanField(default=False)
+
+
+class CommentScore(Model):
+    id = AutoField(primary_key=True)
+    user = ForeignKey(User, on_delete=CASCADE, null=True, blank=True)
+    upvote = BooleanField()
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
+    comment = ForeignKey(Comment, on_delete=CASCADE)
+
+
+class PostScore(Model):
+    id = AutoField(primary_key=True)
+    user = ForeignKey(User, on_delete=CASCADE, null=True, blank=True)
+    upvote = BooleanField()
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
+    post = ForeignKey(Post, on_delete=CASCADE)

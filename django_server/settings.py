@@ -74,7 +74,7 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
+        'django_server.authentication_classes.permissions.ReadOnlyOrOwner'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend',

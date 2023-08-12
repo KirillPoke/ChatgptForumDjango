@@ -27,7 +27,10 @@ class CommentViewSet(ModelViewSet):
         patch_serializer.is_valid(raise_exception=True)
         try:
             comment = Comment.objects.get(id=kwargs['pk'])
-            # ai_comment(comment)
+            if 'is_prompt' in patch_serializer.validated_data:
+                comment.is_prompt = patch_serializer.validated_data['is_prompt']
+                comment.save()
+            ai_comment(comment)
         except Comment.DoesNotExist:
             return HttpResponse(status=404)
         return HttpResponse(status=200)

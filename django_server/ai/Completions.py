@@ -17,13 +17,13 @@ def generate_chat_history(comment):
 
 
 def create_ai_comment(message_history):
-    response = ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=message_history,
-        max_tokens=512,
-    )
-    comment_text = response.choices[0].message['content']
-    return comment_text
+    # response = ChatCompletion.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=message_history,
+    #     max_tokens=512,
+    # )
+    # comment_text = response.choices[0].message['content']
+    return "Dummy ai comment"  # comment_text
 
 
 def ai_comment(comment):

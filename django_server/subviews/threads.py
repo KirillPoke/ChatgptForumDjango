@@ -8,7 +8,7 @@ from django_server.ai.Completions import ai_comment
 
 
 class CommentViewSet(ModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by('id')
 
     def get_queryset(self):
         query_params = self.request.query_params.dict()

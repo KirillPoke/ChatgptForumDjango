@@ -19,11 +19,14 @@ from django.urls import path, include
 from rest_framework import routers
 
 from django_server.subviews.auth import Login
+from django_server.subviews.score import CommentScoreViewSet, PostScoreViewSet
 from django_server.subviews.threads import CommentViewSet, PostViewSet
 
 router = routers.DefaultRouter()
 router.register('comments', CommentViewSet)
 router.register('posts', PostViewSet)
+router.register('comment_score', CommentScoreViewSet)
+router.register('post_score', PostScoreViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', Login.as_view(), name='login'),

@@ -66,6 +66,9 @@ class CommentScore(Model):
     updated_at = DateTimeField(auto_now=True)
     comment = ForeignKey(Comment, on_delete=CASCADE)
 
+    class Meta:
+        unique_together = ('user', 'comment')
+
 
 class PostScore(Model):
     id = AutoField(primary_key=True)
@@ -74,3 +77,6 @@ class PostScore(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
     post = ForeignKey(Post, on_delete=CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'post')

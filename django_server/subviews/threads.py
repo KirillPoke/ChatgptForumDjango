@@ -8,13 +8,12 @@ from django_server.ai.Completions import ai_comment
 
 
 class CommentViewSet(ModelViewSet):
-    queryset = Comment.objects.all().order_by('id')
+    queryset = Comment.objects.all()
 
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            return super().get_permissions()
-        else:
-            return [*super().get_permissions(), ]
+    def get_queryset(self):
+        query_params = self.request.query_params.dict()
+        queryset = self.queryset.filter(**query_params)
+        return queryset
 
     def get_serializer_class(self):
         if self.action in ['list', 'retrieve']:
@@ -34,6 +33,9 @@ class CommentViewSet(ModelViewSet):
         except Comment.DoesNotExist:
             return HttpResponse(status=404)
         return HttpResponse(status=200)
+
+    # def list(self, request, *args, **kwargs):
+    #     return HttpResponse(status=200)
 
 
 class PostViewSet(ModelViewSet):

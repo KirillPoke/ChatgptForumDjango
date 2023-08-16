@@ -1,11 +1,8 @@
-from django.contrib.auth.backends import BaseBackend, ModelBackend
-from django.http import JsonResponse
+from django.contrib.auth.backends import BaseBackend
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
 from django_server.local_settings import GOOGLE_CLIENT_ID
 from django_server.models import User
-from django.contrib.auth import login
-from rest_framework.authentication import BaseAuthentication
 
 
 class GoogleAuthBackend(BaseBackend):

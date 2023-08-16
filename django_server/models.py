@@ -60,7 +60,7 @@ class Comment(Model):
 
 class CommentScore(Model):
     id = AutoField(primary_key=True)
-    user = ForeignKey(User, on_delete=CASCADE, null=True, blank=True)
+    user = ForeignKey(User, on_delete=CASCADE)
     upvote = BooleanField()
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
@@ -72,7 +72,7 @@ class CommentScore(Model):
 
 class PostScore(Model):
     id = AutoField(primary_key=True)
-    user = ForeignKey(User, on_delete=CASCADE, null=True, blank=True)
+    user = ForeignKey(User, on_delete=CASCADE)
     upvote = BooleanField()
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)

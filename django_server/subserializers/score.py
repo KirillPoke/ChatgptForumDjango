@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from django_server.models import CommentScore
+from django_server.models import CommentScore, PostScore
 
 
 class CommentScoreSerializer(ModelSerializer):
@@ -14,7 +14,7 @@ class CommentScoreSerializer(ModelSerializer):
 
 class PostScoreSerializer(ModelSerializer):
     class Meta:
-        model = CommentScore
+        model = PostScore
         fields = ["post", "upvote"]
 
     def create(self, validated_data):

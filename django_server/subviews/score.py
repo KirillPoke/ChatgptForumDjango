@@ -21,18 +21,6 @@ class CommentScoreViewSet(ModelViewSet):
         return queryset
 
 
-# class CommentScoreViewSet(APIView):
-#     queryset = CommentScore.objects.all()
-#     serializer_class = CommentScoreSerializer
-#
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.serializer_class(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save(user=request.user)
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=400)
-
-
 class PostScoreViewSet(ModelViewSet):
     queryset = PostScore.objects.all()
 

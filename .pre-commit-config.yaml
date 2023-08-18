@@ -12,7 +12,6 @@ repos:
       - id: flake8
   - repo: https://github.com/PyCQA/autoflake
     rev: v2.2.0
-    args: [ --max-line-length=120 ]
     args: [ --remove-all-unused-imports, --remove-unused-variables, --in-place ]
     hooks:
       - id: autoflake

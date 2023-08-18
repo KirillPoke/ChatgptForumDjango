@@ -1,5 +1,15 @@
-from django.db.models import Model, AutoField, ForeignKey, CASCADE, SET_NULL, DateTimeField, CharField, TextField, \
-    BooleanField, EmailField
+from django.db.models import (
+    Model,
+    AutoField,
+    ForeignKey,
+    CASCADE,
+    SET_NULL,
+    DateTimeField,
+    CharField,
+    TextField,
+    BooleanField,
+    EmailField,
+)
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
@@ -7,8 +17,10 @@ from django.contrib.auth.hashers import make_password
 
 
 class GoogleUserManager(UserManager):
-    def create_superuser(self, username=None, email=None, password=None, **extra_fields):
-        extra_fields.setdefault('is_superuser', True)
+    def create_superuser(
+        self, username=None, email=None, password=None, **extra_fields
+    ):
+        extra_fields.setdefault("is_superuser", True)
         return self._create_user(email, email, password, **extra_fields)
 
     def _create_user(self, username, email, password, **extra_fields):
@@ -34,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = DateTimeField(auto_now_add=True)
     is_superuser = BooleanField(default=False)
     is_staff = BooleanField(default=False)
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     objects = GoogleUserManager()
 
     def __str__(self):
@@ -51,7 +63,7 @@ class Post(Model):
 class Comment(Model):
     id = AutoField(primary_key=True)
     author = ForeignKey(User, on_delete=SET_NULL, null=True, blank=True)
-    text = TextField(max_length=255)
+    text = TextField(max_length=65535)
     post_id = ForeignKey(Post, on_delete=CASCADE)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
@@ -67,7 +79,7 @@ class CommentScore(Model):
     comment = ForeignKey(Comment, on_delete=CASCADE)
 
     class Meta:
-        unique_together = ('user', 'comment')
+        unique_together = ("user", "comment")
 
 
 class PostScore(Model):
@@ -79,4 +91,4 @@ class PostScore(Model):
     post = ForeignKey(Post, on_delete=CASCADE)
 
     class Meta:
-        unique_together = ('user', 'post')
+        unique_together = ("user", "post")

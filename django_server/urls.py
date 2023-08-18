@@ -20,15 +20,16 @@ from rest_framework import routers
 
 from django_server.subviews.auth import Login
 from django_server.subviews.score import CommentScoreViewSet, PostScoreViewSet
-from django_server.subviews.threads import CommentViewSet, PostViewSet
+from django_server.subviews.posts import PostViewSet
+from django_server.subviews.comments import CommentViewSet
 
 router = routers.DefaultRouter()
-router.register('comments', CommentViewSet)
-router.register('posts', PostViewSet)
-router.register('comment_score', CommentScoreViewSet)
-router.register('post_score', PostScoreViewSet)
+router.register("comments", CommentViewSet)
+router.register("posts", PostViewSet)
+router.register("comment_score", CommentScoreViewSet)
+router.register("post_score", PostScoreViewSet)
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('login/', Login.as_view(), name='login'),
-    path('', include(router.urls))
+    path("admin/", admin.site.urls),
+    path("login/", Login.as_view(), name="login"),
+    path("", include(router.urls)),
 ]

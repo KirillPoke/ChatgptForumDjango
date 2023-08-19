@@ -10,6 +10,7 @@ class PostSerializer(ModelSerializer):
     created_at = ReadOnlyField()
     author = StringRelatedField()
     user_score = SerializerMethodField("get_user_score")
+    total_score = SerializerMethodField("get_total_score")
 
     def get_user_score(self, post):
         request = self.context.get("request")
@@ -22,6 +23,12 @@ class PostSerializer(ModelSerializer):
         else:
             return 0
 
+    def get_total_score(self, post):
+        query = PostScore.objects.filter(post=post)
+        upvotes = query.filter(upvote=True).count()
+        downvotes = query.filter(upvote=False).count()
+        return upvotes - downvotes
+
     class Meta:
         model = Post
-        fields = ["id", "author", "title", "created_at", "user_score"]
+        fields = ["id", "author", "title", "created_at", "user_score", "total_score"]

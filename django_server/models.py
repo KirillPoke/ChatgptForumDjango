@@ -14,6 +14,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.hashers import make_password
+from random_username.generate import generate_username
 
 
 class GoogleUserManager(UserManager):
@@ -42,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     id = AutoField(primary_key=True)
     email = EmailField(unique=True)
     google_id = CharField(max_length=255, unique=True)
-    name = CharField(max_length=255)
+    name = CharField(max_length=255, unique=True, default=generate_username()[0])
     created_at = DateTimeField(auto_now_add=True)
     is_superuser = BooleanField(default=False)
     is_staff = BooleanField(default=False)
@@ -50,7 +51,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = GoogleUserManager()
 
     def __str__(self):
-        return self.email
+        return self.name
+
+    @staticmethod
+    def owner_field():
+        return "id"
 
 
 class Post(Model):
@@ -58,6 +63,10 @@ class Post(Model):
     author = ForeignKey(User, on_delete=SET_NULL, null=True)
     title = CharField(max_length=255)
     created_at = DateTimeField(auto_now_add=True)
+
+    @staticmethod
+    def owner_field():
+        return "author"
 
 
 class Comment(Model):
@@ -69,6 +78,10 @@ class Comment(Model):
     updated_at = DateTimeField(auto_now=True)
     is_prompt = BooleanField(default=False)
 
+    @staticmethod
+    def owner_field():
+        return "author"
+
 
 class CommentScore(Model):
     id = AutoField(primary_key=True)
@@ -77,6 +90,10 @@ class CommentScore(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
     comment = ForeignKey(Comment, on_delete=CASCADE)
+
+    @staticmethod
+    def owner_field():
+        return "user"
 
     class Meta:
         unique_together = ("user", "comment")
@@ -92,3 +109,7 @@ class PostScore(Model):
 
     class Meta:
         unique_together = ("user", "post")
+
+    @staticmethod
+    def owner_field():
+        return "user"

@@ -1,29 +1,46 @@
 from rest_framework.permissions import BasePermission
 
-RETRIEVE_METHODS = ['GET', 'HEAD', 'OPTIONS']
-CREATE_METHODS = ['POST', 'PUT']
-REDACT_DESTROY_METHODS = ['PATCH', 'DELETE']
+RETRIEVE_METHODS = ["GET", "HEAD", "OPTIONS"]
+CREATE_METHODS = ["POST", "PUT"]
+REDACT_DESTROY_METHODS = ["PATCH", "DELETE"]
 
 
-def handle_retrieve(*args, **kwargs):
+def allow_any(*args, **kwargs):
     return True
 
 
-def handle_create(request, *args, **kwargs):
+def allow_authenticated(request, *args, **kwargs):
     return request.user.is_authenticated
 
 
-def handle_redact_destroy(request, view, **kwargs):
-    model_id = view.kwargs['pk']
-    related_model_instance = view.queryset.get(id=model_id)
-    return request.user.is_authenticated and related_model_instance.author == request.user
+def allow_owner(request, view, **kwargs):
+    owner_field = view.queryset.model.owner_field()
+
+    # TODO: Only works if for the queryset there is only one owner.
+    if owner_field != "id":
+        single_owner_in_query = view.queryset.distinct(owner_field).count() <= 1
+    else:
+        single_owner_in_query = view.queryset.filter(id=request.user.id).count() <= 1
+    if not single_owner_in_query:
+        return False
+
+    if owner_field != "id":
+        is_owner = (
+            getattr(view.queryset.first(), owner_field) == request.user
+        )  # For models with FK owner_field
+    else:
+        is_owner = (
+            view.queryset.first() == request.user
+        )  # For models with PK owner_field
+
+    return request.user.is_authenticated and is_owner and single_owner_in_query
 
 
 def handle_request(request, view):
     handlers = {
-        **dict.fromkeys(RETRIEVE_METHODS, handle_retrieve),
-        **dict.fromkeys(CREATE_METHODS, handle_create),
-        **dict.fromkeys(REDACT_DESTROY_METHODS, handle_redact_destroy),
+        **dict.fromkeys(RETRIEVE_METHODS, allow_any),
+        **dict.fromkeys(CREATE_METHODS, allow_authenticated),
+        **dict.fromkeys(REDACT_DESTROY_METHODS, allow_owner),
     }
     return handlers.get(request.method, lambda method: False)(request, view)
 
@@ -35,3 +52,12 @@ class ReadOnlyOrOwner(BasePermission):
 
     def has_permission(self, request, view):
         return handle_request(request, view)
+
+
+class AllowOwner(BasePermission):
+    """
+    Allow only owner to do anything.
+    """
+
+    def has_permission(self, request, view):
+        return allow_owner(request, view)

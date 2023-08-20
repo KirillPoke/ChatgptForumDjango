@@ -55,3 +55,5 @@ tzdata==2023.3
 urllib3==1.26.16
 virtualenv==20.24.3
 yarl==1.9.2
+random-username==1.0.2
+

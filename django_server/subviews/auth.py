@@ -1,7 +1,8 @@
 from django.http import JsonResponse
 from google.auth.transport.requests import Request
 from google.oauth2 import id_token
-from rest_framework_simplejwt.views import TokenObtainSlidingView
+from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import AllowAny
 
 from django_server.models import User
 from django_server.settings import GOOGLE_CLIENT_ID
@@ -22,8 +23,9 @@ def registrate_user(user_data):
     return new_user
 
 
-class Login(TokenObtainSlidingView):
+class Login(GenericAPIView):
     serializer_class = JWTSerializer
+    permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

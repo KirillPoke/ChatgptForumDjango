@@ -19,8 +19,4 @@ jobs:
       - name: Build and push Docker image
         env:
           DOCKER_BUILDKIT: 1
-        run: |
-          docker buildx create --use
-          docker buildx build --platform linux/amd64,linux/arm64 --tag your-docker-username/your-image-name:latest .
-          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker push your-docker-username/your-image-name:latest
+        run: docker build .

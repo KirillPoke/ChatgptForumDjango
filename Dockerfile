@@ -2,9 +2,10 @@ FROM python:3.11
 
 WORKDIR /app
 COPY . /app
+COPY venv /app/venv
 
-RUN pip install poetry
+ENV VIRTUAL_ENV=/app/venv
+RUN python3 -m venv $VIRTUAL_ENV
+ENV PATH="/app/venv/bin:$PATH"
 
-RUN poetry install
-
-CMD ["echo", "Hello, World!"]
+CMD ["pip", "freeze"]

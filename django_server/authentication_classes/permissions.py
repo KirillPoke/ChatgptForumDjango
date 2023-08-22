@@ -18,12 +18,16 @@ def allow_owner(request, view, **kwargs):
 
     # TODO: Only works if for the queryset there is only one owner.
     if owner_field != "id":
-        single_owner_in_query = view.queryset.distinct(owner_field).count() <= 1
+        filter_kwargs = {f"{owner_field}__isnull": False}
+        filter_kwargs.update(view.kwargs)
+        owners_list_query = view.get_queryset().filter().values(owner_field)
+        single_owner_in_query = (
+            owners_list_query.filter(**filter_kwargs).distinct().count() <= 1
+        )
     else:
-        single_owner_in_query = view.queryset.filter(id=request.user.id).count() <= 1
+        single_owner_in_query = view.get_queryset().count() <= 1
     if not single_owner_in_query:
         return False
-
     if owner_field != "id":
         is_owner = (
             getattr(view.queryset.first(), owner_field) == request.user

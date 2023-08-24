@@ -7,7 +7,7 @@ from django_server.models import Post, Comment, CommentScore
 
 class CommentSerializer(ModelSerializer):
     id = ReadOnlyField()
-    post_id = PrimaryKeyRelatedField(queryset=Post.objects.all())
+    post = PrimaryKeyRelatedField(queryset=Post.objects.all())
     author = StringRelatedField()
     user_score = SerializerMethodField("get_user_score")
 
@@ -26,7 +26,7 @@ class CommentSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ["id", "post_id", "author", "text", "is_prompt", "user_score"]
+        fields = ["id", "post", "author", "text", "is_prompt", "user_score"]
 
 
 class CommentSerializerPost(CommentSerializer):

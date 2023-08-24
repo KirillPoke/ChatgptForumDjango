@@ -39,11 +39,15 @@ class GoogleUserManager(UserManager):
         return self._create_user(email, email, password, **extra_fields)
 
 
+def get_default_user_display_name():
+    return generate_username()[0]
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     id = AutoField(primary_key=True)
     email = EmailField(unique=True)
     google_id = CharField(max_length=255, unique=True)
-    name = CharField(max_length=255, unique=True, default=generate_username()[0])
+    name = CharField(max_length=255, unique=True, default=get_default_user_display_name)
     created_at = DateTimeField(auto_now_add=True)
     is_superuser = BooleanField(default=False)
     is_staff = BooleanField(default=False)
@@ -63,6 +67,7 @@ class Post(Model):
     author = ForeignKey(User, on_delete=SET_NULL, null=True)
     title = CharField(max_length=255)
     created_at = DateTimeField(auto_now_add=True)
+    chat_role = TextField(max_length=65535, default="You are a helpful assistant.")
 
     @staticmethod
     def owner_field():
@@ -73,7 +78,7 @@ class Comment(Model):
     id = AutoField(primary_key=True)
     author = ForeignKey(User, on_delete=SET_NULL, null=True, blank=True)
     text = TextField(max_length=65535)
-    post_id = ForeignKey(Post, on_delete=CASCADE)
+    post = ForeignKey(Post, on_delete=CASCADE)
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
     is_prompt = BooleanField(default=False)

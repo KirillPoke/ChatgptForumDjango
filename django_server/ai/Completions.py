@@ -1,13 +1,15 @@
 from django_server.models import Comment
-from openai import ChatCompletion
 
 
 def generate_chat_history(comment):
     messages_list = [
-        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "system", "content": comment.post.chat_role},
     ]
     previous_comments = [
-        *Comment.objects.filter(id__lte=comment.id, post_id=comment.post_id).values_list('text', 'author')]
+        *Comment.objects.filter(id__lte=comment.id, post=comment.post).values_list(
+            "text", "author"
+        )
+    ]
     for comment in previous_comments:
         if comment[1] is None:
             messages_list.append({"role": "assistant", "content": comment[0]})
@@ -23,10 +25,11 @@ def create_ai_comment(message_history):
     #     max_tokens=512,
     # )
     # comment_text = response.choices[0].message['content']
-    return "Dummy ai comment"  # comment_text
+    # return comment_text
+    return "Dummy ai comment"
 
 
 def ai_comment(comment):
     message_history = generate_chat_history(comment)
     comment_text = create_ai_comment(message_history)
-    Comment.objects.create(text=comment_text, post_id=comment.post_id, author=None)
+    Comment.objects.create(text=comment_text, post=comment.post, author=None)

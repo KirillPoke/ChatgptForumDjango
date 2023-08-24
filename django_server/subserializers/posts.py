@@ -9,8 +9,16 @@ class PostSerializer(ModelSerializer):
     id = ReadOnlyField()
     created_at = ReadOnlyField()
     author = StringRelatedField()
-    user_score = SerializerMethodField("get_user_score")
-    total_score = SerializerMethodField("get_total_score")
+    user_score = SerializerMethodField("get_user_score", read_only=True)
+    total_score = SerializerMethodField("get_total_score", read_only=True)
+
+    def create(self, validated_data):
+        validated_data["author"] = self.context.get("request").user
+        return Post.objects.create(**validated_data)
+
+    def to_representation(self, obj):
+        self.fields["author"] = StringRelatedField()
+        return super().to_representation(obj)
 
     def get_user_score(self, post):
         request = self.context.get("request")
@@ -31,4 +39,12 @@ class PostSerializer(ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ["id", "author", "title", "created_at", "user_score", "total_score"]
+        fields = [
+            "id",
+            "author",
+            "title",
+            "created_at",
+            "user_score",
+            "total_score",
+            "chat_role",
+        ]

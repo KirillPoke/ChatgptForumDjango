@@ -1,7 +1,7 @@
 FROM python:3.11-slim-bullseye
 
 WORKDIR /app
-COPY . /app
+COPY . .
 COPY venv /app/venv
 
 ENV VIRTUAL_ENV=/app/venv

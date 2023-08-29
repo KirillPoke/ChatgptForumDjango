@@ -9,6 +9,7 @@ from django.db.models import (
     TextField,
     BooleanField,
     EmailField,
+    ManyToManyField,
 )
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
@@ -62,12 +63,18 @@ class User(AbstractBaseUser, PermissionsMixin):
         return "id"
 
 
+class Tag(Model):
+    id = AutoField(primary_key=True)
+    name = CharField(max_length=255)
+
+
 class Post(Model):
     id = AutoField(primary_key=True)
     author = ForeignKey(User, on_delete=SET_NULL, null=True)
     title = CharField(max_length=255)
     created_at = DateTimeField(auto_now_add=True)
     chat_role = TextField(max_length=65535, default="You are a helpful assistant.")
+    tags = ManyToManyField(Tag)
 
     @staticmethod
     def owner_field():

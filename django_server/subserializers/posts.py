@@ -2,7 +2,8 @@ from rest_framework.fields import ReadOnlyField, SerializerMethodField
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import ModelSerializer
 
-from django_server.models import Post, PostScore
+from django_server.models import Post, PostScore, Tag
+from django_server.subserializers.tags import TagStringRelatedField
 
 
 class PostSerializer(ModelSerializer):
@@ -11,6 +12,9 @@ class PostSerializer(ModelSerializer):
     author = StringRelatedField()
     user_score = SerializerMethodField("get_user_score", read_only=True)
     total_score = SerializerMethodField("get_total_score", read_only=True)
+    tags = TagStringRelatedField(
+        many=True, queryset=Tag.objects.all()
+    )  # PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True, required=False)
 
     def create(self, validated_data):
         validated_data["author"] = self.context.get("request").user
@@ -47,4 +51,5 @@ class PostSerializer(ModelSerializer):
             "user_score",
             "total_score",
             "chat_role",
+            "tags",
         ]

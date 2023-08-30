@@ -67,6 +67,9 @@ class Tag(Model):
     id = AutoField(primary_key=True)
     name = CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class Post(Model):
     id = AutoField(primary_key=True)

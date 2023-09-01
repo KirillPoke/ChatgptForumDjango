@@ -13,12 +13,16 @@ class PostSerializer(ModelSerializer):
     user_score = SerializerMethodField("get_user_score", read_only=True)
     total_score = SerializerMethodField("get_total_score", read_only=True)
     tags = TagStringRelatedField(
-        many=True, queryset=Tag.objects.all()
+        many=True, queryset=Tag.objects.all(), required=False
     )  # PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True, required=False)
 
     def create(self, validated_data):
         validated_data["author"] = self.context.get("request").user
-        return Post.objects.create(**validated_data)
+        tags = validated_data.pop("tags")
+        post = Post.objects.create(**validated_data)
+        if tags:
+            post.tags.set(tags)
+        return post
 
     def to_representation(self, obj):
         self.fields["author"] = StringRelatedField()

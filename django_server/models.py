@@ -65,7 +65,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Tag(Model):
     id = AutoField(primary_key=True)
-    name = CharField(max_length=255)
+    name = CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
@@ -78,6 +78,9 @@ class Post(Model):
     created_at = DateTimeField(auto_now_add=True)
     chat_role = TextField(max_length=65535, default="You are a helpful assistant.")
     tags = ManyToManyField(Tag)
+
+    def __str__(self):
+        return self.title
 
     @staticmethod
     def owner_field():
@@ -92,6 +95,7 @@ class Comment(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
     is_prompt = BooleanField(default=False)
+    parent_comment = ForeignKey("Comment", on_delete=SET_NULL, null=True)
 
     @staticmethod
     def owner_field():

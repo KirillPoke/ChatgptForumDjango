@@ -29,11 +29,19 @@ class JWTSerializer(TokenObtainPairSerializer):
             refresh = self.get_token(self.user)
             validated_data = {
                 "refresh": str(refresh),
+                "refresh_expiration_timestamp": refresh.payload["exp"],
                 "access": str(refresh.access_token),
+                "access_expiration_timestamp": refresh.access_token.payload["exp"],
             }
             return validated_data
         else:
-            return super().validate(attrs)
+            validated_data = super().validate(attrs)
+            refresh = self.get_token(self.user)
+            validated_data["refresh_expiration_timestamp"] = refresh.payload["exp"]
+            validated_data[
+                "access_expiration_timestamp"
+            ] = refresh.access_token.payload["exp"]
+            return validated_data
 
 
 def get_user_data(token):

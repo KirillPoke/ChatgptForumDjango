@@ -34,4 +34,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("login/", Login.as_view(), name="login"),
     path("", include(router.urls)),
+    path("accounts/", include("allauth.urls")),
 ]

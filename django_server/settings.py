@@ -78,9 +78,13 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         # 'django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend',
-        "rest_framework_simplejwt.authentication.JWTAuthentication"
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
 }
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username
+    "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
+]
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 

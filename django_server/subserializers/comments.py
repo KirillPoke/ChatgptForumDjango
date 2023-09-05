@@ -10,7 +10,9 @@ class CommentSerializer(ModelSerializer):
     post = PrimaryKeyRelatedField(queryset=Post.objects.all())
     author = StringRelatedField()
     user_score = SerializerMethodField("get_user_score")
-    parent_comment = PrimaryKeyRelatedField(queryset=Comment.objects.all())
+    parent_comment = PrimaryKeyRelatedField(
+        queryset=Comment.objects.all(), required=False, allow_null=True
+    )
 
     def get_user_score(self, comment):
         request = self.context.get("request")

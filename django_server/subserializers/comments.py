@@ -10,7 +10,7 @@ class CommentSerializer(ModelSerializer):
     post = PrimaryKeyRelatedField(queryset=Post.objects.all())
     author = StringRelatedField()
     user_score = SerializerMethodField("get_user_score")
-    parent_comment = PrimaryKeyRelatedField(
+    parent = PrimaryKeyRelatedField(
         queryset=Comment.objects.all(), required=False, allow_null=True
     )
 
@@ -36,7 +36,7 @@ class CommentSerializer(ModelSerializer):
             "text",
             "is_prompt",
             "user_score",
-            "parent_comment",
+            "parent",
         ]
 
 

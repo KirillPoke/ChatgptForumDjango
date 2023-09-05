@@ -22,7 +22,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from django_server.subviews.auth import Login
 from django_server.subviews.score import CommentScoreViewSet, PostScoreViewSet
 from django_server.subviews.posts import PostViewSet
-from django_server.subviews.comments import CommentViewSet
+from django_server.subviews.comments import CommentViewSet, CommentTree
 from django_server.subviews.user import UserViewSet
 
 router = routers.DefaultRouter()
@@ -35,5 +35,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("token/", Login.as_view(), name="token_obtain_pair"),
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("comments/tree", CommentTree.as_view(), name="comments_tree"),
     path("", include(router.urls)),
 ]

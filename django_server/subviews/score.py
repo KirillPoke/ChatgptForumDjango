@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from rest_framework import status
 from rest_framework.decorators import permission_classes, action
 from rest_framework.viewsets import ModelViewSet
 
@@ -22,9 +23,9 @@ class ScoreViewSet(ModelViewSet):
     def delete(self, request):
         if self.queryset.exists():
             self.queryset.first().delete()
-            return HttpResponse(status=204)
+            return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
-            return HttpResponse(status=404)
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
     @action(methods=["patch"], detail=False)
     def patch(self, request):
@@ -34,9 +35,9 @@ class ScoreViewSet(ModelViewSet):
         if self.queryset.exists():
             self.queryset.first().upvote = upvote
             self.queryset.first().save()
-            return HttpResponse(status=200)
+            return HttpResponse(status.HTTP_200_OK)
         else:
-            return HttpResponse(status=404)
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
 
 
 class CommentScoreViewSet(ScoreViewSet):

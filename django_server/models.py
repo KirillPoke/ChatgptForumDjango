@@ -81,7 +81,7 @@ class Post(Model):
     tags = ManyToManyField(Tag)
 
     def __str__(self):
-        return self.title
+        return f"{self.id}|{self.title}"
 
     @staticmethod
     def owner_field():

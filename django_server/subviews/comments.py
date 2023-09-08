@@ -1,4 +1,7 @@
-from django.http import HttpResponse
+from django.forms import model_to_dict
+from django.http import HttpResponse, JsonResponse
+from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from django_server.ai.Completions import ai_comment
@@ -33,8 +36,27 @@ class CommentViewSet(ModelViewSet):
                 comment.save()
             ai_comment(comment)
         except Comment.DoesNotExist:
-            return HttpResponse(status=404)
-        return HttpResponse(status=200)
+            return HttpResponse(status=status.HTTP_404_NOT_FOUND)
+        return HttpResponse(status.HTTP_200_OK)
 
-    # def list(self, request, *args, **kwargs):
-    #     return HttpResponse(status=200)
+
+def serialize_tree(qs, d):
+    if not qs:
+        return []
+    for node in qs:
+        d[node.id] = model_to_dict(node)
+        d[node.id]["children"] = {}
+        serialize_tree(node.children.with_tree_fields(), d[node.id]["children"])
+
+
+class CommentTree(APIView):
+    def get(self, request, *args, **kwargs):
+        query_params = request.query_params.dict()
+        model_list = list(Comment.objects.filter(**query_params).with_tree_fields())
+        response_data = []
+        for instance in model_list:
+            serializer = CommentSerializer(instance)
+            model_dict = serializer.data
+            model_dict["tree_path"] = instance.tree_path
+            response_data.append(model_dict)
+        return JsonResponse(response_data, status=status.HTTP_200_OK, safe=False)

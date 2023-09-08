@@ -16,6 +16,7 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.hashers import make_password
 from random_username.generate import generate_username
+from tree_queries.models import TreeNode
 
 
 class GoogleUserManager(UserManager):
@@ -80,14 +81,14 @@ class Post(Model):
     tags = ManyToManyField(Tag)
 
     def __str__(self):
-        return self.title
+        return f"{self.id}|{self.title}"
 
     @staticmethod
     def owner_field():
         return "author"
 
 
-class Comment(Model):
+class Comment(TreeNode):
     id = AutoField(primary_key=True)
     author = ForeignKey(User, on_delete=SET_NULL, null=True, blank=True)
     text = TextField(max_length=65535)
@@ -95,7 +96,6 @@ class Comment(Model):
     created_at = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField(auto_now=True)
     is_prompt = BooleanField(default=False)
-    parent_comment = ForeignKey("Comment", on_delete=SET_NULL, null=True)
 
     @staticmethod
     def owner_field():

@@ -8,7 +8,7 @@ from django_server.models import Post, Comment, CommentScore
 class CommentSerializer(ModelSerializer):
     id = ReadOnlyField()
     post = PrimaryKeyRelatedField(queryset=Post.objects.all())
-    author = StringRelatedField()
+    author = StringRelatedField(allow_null=True)
     user_score = SerializerMethodField("get_user_score")
     parent = PrimaryKeyRelatedField(
         queryset=Comment.objects.all(), required=False, allow_null=True
@@ -16,7 +16,7 @@ class CommentSerializer(ModelSerializer):
 
     def get_user_score(self, comment):
         request = self.context.get("request")
-        if request.user.is_authenticated:
+        if request and request.user.is_authenticated:
             try:
                 comment_score = CommentScore.objects.get(
                     user=request.user, comment=comment

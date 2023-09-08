@@ -55,7 +55,8 @@ class CommentTree(APIView):
         model_list = list(Comment.objects.filter(**query_params).with_tree_fields())
         response_data = []
         for instance in model_list:
-            model_dict = model_to_dict(instance)
+            serializer = CommentSerializer(instance)
+            model_dict = serializer.data
             model_dict["tree_path"] = instance.tree_path
             response_data.append(model_dict)
         return JsonResponse(response_data, status=status.HTTP_200_OK, safe=False)

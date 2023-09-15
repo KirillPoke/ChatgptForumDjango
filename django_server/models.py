@@ -15,8 +15,13 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.models import UserManager
 from django.contrib.auth.hashers import make_password
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from random_username.generate import generate_username
 from tree_queries.models import TreeNode
+
+from django_server.ai.Completions import generate_completion_prompt
+from django_server.ai.PromptInitiator import allow_score_based_prompt
 
 
 class GoogleUserManager(UserManager):
@@ -87,6 +92,13 @@ class Post(Model):
     def owner_field():
         return "author"
 
+    @property
+    def total_score(self):
+        query = PostScore.objects.filter(post=self)
+        upvotes = query.filter(upvote=True).count()
+        downvotes = query.filter(upvote=False).count()
+        return upvotes - downvotes
+
 
 class Comment(TreeNode):
     id = AutoField(primary_key=True)
@@ -100,6 +112,13 @@ class Comment(TreeNode):
     @staticmethod
     def owner_field():
         return "author"
+
+    @property
+    def total_score(self):
+        query = CommentScore.objects.filter(comment=self)
+        upvotes = query.filter(upvote=True).count()
+        downvotes = query.filter(upvote=False).count()
+        return upvotes - downvotes
 
 
 class CommentScore(Model):
@@ -116,6 +135,12 @@ class CommentScore(Model):
 
     class Meta:
         unique_together = ("user", "comment")
+
+
+@receiver(post_save, sender=CommentScore)
+def call_check_crowd_based_vote(sender, instance, **kwargs):
+    if allow_score_based_prompt(instance.comment):
+        generate_completion_prompt(instance.comment)
 
 
 class PostScore(Model):

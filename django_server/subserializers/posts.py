@@ -40,10 +40,7 @@ class PostSerializer(ModelSerializer):
             return 0
 
     def get_total_score(self, post):
-        query = PostScore.objects.filter(post=post)
-        upvotes = query.filter(upvote=True).count()
-        downvotes = query.filter(upvote=False).count()
-        return upvotes - downvotes
+        return post.total_score
 
     class Meta:
         model = Post

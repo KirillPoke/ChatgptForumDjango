@@ -1,10 +1,10 @@
-from django_server.models import Comment
-
-
 def generate_chat_history(comment):
+    from django_server.models import Comment
+
     messages_list = [
         {"role": "system", "content": comment.post.chat_role},
     ]
+    previous_comments = []
     previous_comments = [
         *Comment.objects.filter(id__lte=comment.id, post=comment.post).values_list(
             "text", "author"
@@ -29,7 +29,9 @@ def create_ai_comment(message_history):
     return "Dummy ai comment"
 
 
-def ai_comment(comment):
+def generate_completion_prompt(comment):
+    from django_server.models import Comment
+
     message_history = generate_chat_history(comment)
     comment_text = create_ai_comment(message_history)
     Comment.objects.create(text=comment_text, post=comment.post, author=None)

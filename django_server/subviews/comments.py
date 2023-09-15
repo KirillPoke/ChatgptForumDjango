@@ -1,10 +1,10 @@
 from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import ModelViewSet
 
-from django_server.ai.Completions import ai_comment
+from django_server.ai.Completions import generate_completion_prompt
 from django_server.models import Comment
 from django_server.subserializers.comments import (
     CommentSerializer,
@@ -34,7 +34,7 @@ class CommentViewSet(ModelViewSet):
             if "is_prompt" in patch_serializer.validated_data:
                 comment.is_prompt = patch_serializer.validated_data["is_prompt"]
                 comment.save()
-            ai_comment(comment)
+            generate_completion_prompt(comment)
         except Comment.DoesNotExist:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
         return HttpResponse(status.HTTP_200_OK)
@@ -49,13 +49,13 @@ def serialize_tree(qs, d):
         serialize_tree(node.children.with_tree_fields(), d[node.id]["children"])
 
 
-class CommentTree(APIView):
+class CommentTree(GenericAPIView):
     def get(self, request, *args, **kwargs):
         query_params = request.query_params.dict()
         model_list = list(Comment.objects.filter(**query_params).with_tree_fields())
         response_data = []
         for instance in model_list:
-            serializer = CommentSerializer(instance)
+            serializer = CommentSerializer(instance, context={"request": request})
             model_dict = serializer.data
             model_dict["tree_path"] = instance.tree_path
             response_data.append(model_dict)

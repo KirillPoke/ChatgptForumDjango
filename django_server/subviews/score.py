@@ -1,9 +1,8 @@
 from django.http import HttpResponse
 from rest_framework import status
-from rest_framework.decorators import permission_classes, action
+from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
-from django_server.authentication_classes.permissions import AllowOwner
 from django_server.models import CommentScore, PostScore
 from django_server.subserializers.score import (
     CommentScoreSerializer,
@@ -11,7 +10,6 @@ from django_server.subserializers.score import (
 )
 
 
-@permission_classes([AllowOwner])
 class ScoreViewSet(ModelViewSet):
     def get_queryset(self):
         query_params = self.request.query_params.dict()

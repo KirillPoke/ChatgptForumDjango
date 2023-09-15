@@ -49,9 +49,11 @@ def handle_request(request, view):
     return handlers.get(request.method, lambda method: False)(request, view)
 
 
-class ReadOnlyOrOwner(BasePermission):
+class AllowBasedOnMethod(BasePermission):
     """
-    The request is authenticated as a user, or is a read-only request.
+    1. Allows read methods to any user
+    2. Allows creation methods to authenticated users
+    3. Allows redaction methods to owners
     """
 
     def has_permission(self, request, view):

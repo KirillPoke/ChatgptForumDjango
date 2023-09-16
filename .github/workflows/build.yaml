@@ -22,7 +22,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: .
           push: true
           tags: kr651/gpt-forum:latest
           cache-from: type=gha

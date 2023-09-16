@@ -13,8 +13,8 @@ from django_server.subserializers.score import (
 class ScoreViewSet(ModelViewSet):
     def get_queryset(self):
         query_params = self.request.query_params.dict()
-        queryset = self.queryset.filter(**query_params)
         query_params["user"] = self.request.user
+        queryset = self.queryset.filter(**query_params)
         return queryset
 
     @action(methods=["delete"], detail=False)

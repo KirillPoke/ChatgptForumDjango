@@ -15,26 +15,27 @@ def allow_authenticated(request, *args, **kwargs):
 
 def allow_owner(request, view, **kwargs):
     owner_field = view.queryset.model.owner_field()
+    filter_kwargs = {**view.kwargs, f"{owner_field}": request.user}
+    view_queryset = view.get_queryset().filter(**filter_kwargs)
 
-    # TODO: Only works if for the queryset there is only one owner.
+    #   Only works if for the queryset there is only one owner.
+    #   Check if there is only one owner to the queryset
     if owner_field != "id":
-        filter_kwargs = {f"{owner_field}__isnull": False}
-        filter_kwargs.update(view.kwargs)
-        owners_list_query = view.get_queryset().filter().values(owner_field)
-        single_owner_in_query = (
-            owners_list_query.filter(**filter_kwargs).distinct().count() <= 1
-        )
+        owners_list_query = view_queryset.values(owner_field)
+        single_owner_in_query = owners_list_query.distinct().count() == 1
     else:
-        single_owner_in_query = view.get_queryset().count() <= 1
+        single_owner_in_query = view_queryset.count() == 1
     if not single_owner_in_query:
         return False
+
+    #   Check that the single owner of the queryset is the user
     if owner_field != "id":
         is_owner = (
-            getattr(view.queryset.first(), owner_field) == request.user
+            getattr(view_queryset.first(), owner_field) == request.user
         )  # For models with FK owner_field
     else:
         is_owner = (
-            view.queryset.first() == request.user
+            view_queryset.first() == request.user
         )  # For models with PK owner_field
 
     return request.user.is_authenticated and is_owner and single_owner_in_query

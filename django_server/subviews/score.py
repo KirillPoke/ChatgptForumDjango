@@ -19,8 +19,8 @@ class ScoreViewSet(ModelViewSet):
 
     @action(methods=["delete"], detail=False)
     def delete(self, request):
-        if self.queryset.exists():
-            self.queryset.first().delete()
+        if self.get_queryset().exists():
+            self.get_queryset().first().delete()
             return HttpResponse(status=status.HTTP_204_NO_CONTENT)
         else:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)
@@ -30,9 +30,9 @@ class ScoreViewSet(ModelViewSet):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         upvote = serializer.validated_data["upvote"]
-        if self.queryset.exists():
-            self.queryset.first().upvote = upvote
-            self.queryset.first().save()
+        if self.get_queryset().exists():
+            self.get_queryset().first().upvote = upvote
+            self.get_queryset().first().save()
             return HttpResponse(status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)

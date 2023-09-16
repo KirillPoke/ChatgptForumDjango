@@ -1,15 +1,13 @@
-def generate_chat_history(comment):
-    from django_server.models import Comment
+from django_server.models import Comment
 
+
+def generate_chat_history(comment):
     messages_list = [
         {"role": "system", "content": comment.post.chat_role},
     ]
-    previous_comments = []
-    previous_comments = [
-        *Comment.objects.filter(id__lte=comment.id, post=comment.post).values_list(
-            "text", "author"
-        )
-    ]
+    previous_comments = comment.ancestors(include_self=True).values_list(
+        "text", "author"
+    )
     for comment in previous_comments:
         if comment[1] is None:
             messages_list.append({"role": "assistant", "content": comment[0]})
@@ -30,8 +28,8 @@ def create_ai_comment(message_history):
 
 
 def generate_completion_prompt(comment):
-    from django_server.models import Comment
-
     message_history = generate_chat_history(comment)
     comment_text = create_ai_comment(message_history)
-    Comment.objects.create(text=comment_text, post=comment.post, author=None)
+    Comment.objects.create(
+        text=comment_text, post=comment.post, parent=comment, author=None
+    )

@@ -42,10 +42,10 @@ jobs:
         with:
           path: venv
           key: venv-${{ hashFiles('pyproject.toml') }}
-
-      - run: ls
-
-      - name: Build and push Docker image
-        env:
-          DOCKER_BUILDKIT: 1
-        run: docker build .
+#
+#      - run: ls
+#
+#      - name: Build and push Docker image
+#        env:
+#          DOCKER_BUILDKIT: 1
+#        run: docker build .

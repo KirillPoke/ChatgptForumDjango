@@ -6,7 +6,6 @@ from django_server.models import Post, PostScore, Tag
 from django_server.subserializers.tags import TagStringRelatedField
 
 
-# test
 class PostSerializer(ModelSerializer):
     id = ReadOnlyField()
     created_at = ReadOnlyField()

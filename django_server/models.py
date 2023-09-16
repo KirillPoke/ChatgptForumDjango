@@ -72,13 +72,20 @@ class Tag(Model):
         return self.name
 
 
+AUTHOR = "author"
+SCORE = "score"
+
+
 class Post(Model):
+    PROMPT_MODES = ((AUTHOR, AUTHOR), (SCORE, SCORE))
+
     id = AutoField(primary_key=True)
     author = ForeignKey(User, on_delete=SET_NULL, null=True)
     title = CharField(max_length=255)
     created_at = DateTimeField(auto_now_add=True)
     chat_role = TextField(max_length=65535, default="You are a helpful assistant.")
     tags = ManyToManyField(Tag)
+    prompt_mode = CharField(max_length=255, default=AUTHOR, choices=PROMPT_MODES)
 
     def __str__(self):
         return f"{self.id}|{self.title}"

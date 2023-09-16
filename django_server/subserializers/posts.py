@@ -1,4 +1,4 @@
-from rest_framework.fields import ReadOnlyField, SerializerMethodField
+from rest_framework.fields import ReadOnlyField, SerializerMethodField, CharField
 from rest_framework.relations import StringRelatedField
 from rest_framework.serializers import ModelSerializer
 
@@ -15,6 +15,7 @@ class PostSerializer(ModelSerializer):
     tags = TagStringRelatedField(
         many=True, queryset=Tag.objects.all(), required=False
     )  # PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True, required=False)
+    prompt_mode = CharField(max_length=255)
 
     def create(self, validated_data):
         validated_data["author"] = self.context.get("request").user
@@ -53,4 +54,5 @@ class PostSerializer(ModelSerializer):
             "total_score",
             "chat_role",
             "tags",
+            "prompt_mode",
         ]

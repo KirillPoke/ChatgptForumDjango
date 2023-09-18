@@ -13,9 +13,7 @@ class PostSerializer(ModelSerializer):
     author = StringRelatedField()
     user_score = SerializerMethodField("get_user_score", read_only=True)
     total_score = SerializerMethodField("get_total_score", read_only=True)
-    tags = TagStringRelatedField(
-        many=True, queryset=Tag.objects.all(), required=False
-    )  # PrimaryKeyRelatedField(queryset=Tag.objects.all(), many=True, required=False)
+    tags = TagStringRelatedField(many=True, queryset=Tag.objects.all(), required=False)
     prompt_mode = CharField(max_length=255)
 
     def create(self, validated_data):

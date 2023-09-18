@@ -1,5 +1,5 @@
 {
-  "taskDefinitionArn": "arn:aws:ecs:eu-west-1:042993547532:task-definition/GPTForum:1",
+  "taskDefinitionArn": "arn:aws:ecs:eu-west-1:042993547532:task-definition/GPTForum:5",
   "containerDefinitions": [
     {
       "name": "server",
@@ -16,24 +16,44 @@
       ],
       "essential": true,
       "environment": [],
-      "environmentFiles": [],
       "mountPoints": [],
       "volumesFrom": [],
-      "ulimits": []
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/GPTForum",
+          "awslogs-region": "eu-west-1",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      }
     }
   ],
   "family": "GPTForum",
   "executionRoleArn": "arn:aws:iam::042993547532:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
-  "revision": 1,
+  "revision": 5,
   "volumes": [],
   "status": "ACTIVE",
   "requiresAttributes": [
+    {
+      "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+    },
+    {
+      "name": "ecs.capability.execution-role-awslogs"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+    },
     {
       "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
     },
     {
       "name": "ecs.capability.task-eni"
+    },
+    {
+      "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
     }
   ],
   "placementConstraints": [],
@@ -50,7 +70,7 @@
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
-  "registeredAt": "2023-09-17T09:32:10.412Z",
+  "registeredAt": "2023-09-18T19:24:38.060Z",
   "registeredBy": "arn:aws:iam::042993547532:root",
   "tags": []
 }

@@ -5,6 +5,6 @@ RUN apt-get update && apt-get -y install libpq-dev gcc
 COPY pyproject.toml poetry.lock /app/
 RUN pip install poetry && poetry install
 COPY . /app
-CMD daphne django_server.asgi:application
+ENTRYPOINT ["entrypoint.sh"]
 
 

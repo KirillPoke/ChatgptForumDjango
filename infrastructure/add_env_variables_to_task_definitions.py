@@ -10,8 +10,8 @@ if __name__ == "__main__":
     for env_var in [*google_env_vars, *db_env_vars, *openai_env_vars]:
         env_dict = {"name": env_var, "value": os.environ.get(env_var)}
         environment_json.append(env_dict)
-    with open("task-definition.json") as task_definition_file:
+    with open("infrastructure/task-definition.json") as task_definition_file:
         task_definition = json.load(task_definition_file)
         task_definition["containerDefinitions"][0]["environment"] = environment_json
-    with open("task-definition.json", "w") as task_definition_file:
+    with open("infrastructure/task-definition.json", "w") as task_definition_file:
         json.dump(task_definition, task_definition_file, indent=4)

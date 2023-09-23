@@ -3,8 +3,8 @@ import os
 
 if __name__ == "__main__":
     google_env_vars = ["JWT_SECRET_KEY", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
-    db_env_vars = ["RDS_DB_USER", "DB_PASSWORD", "DB_HOST"]
-    misc_env_vars = ["OPENAI_API_KEY", "RDS_DB_PASSWORD"]
+    db_env_vars = ["RDS_DB_USER", "RDS_DB_PASSWORD", "DB_HOST"]
+    misc_env_vars = ["OPENAI_API_KEY", "DJANGO_SECRET_KEY"]
 
     environment_json = []
     for env_var in [*google_env_vars, *db_env_vars, *misc_env_vars]:

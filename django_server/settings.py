@@ -130,7 +130,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ALLOWED_HOSTS = ["*"]
-
+SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = False
 AUTH_USER_MODEL = "django_server.User"
 

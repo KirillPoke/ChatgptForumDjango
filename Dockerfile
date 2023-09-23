@@ -11,7 +11,7 @@ WORKDIR /app
 COPY . /app
 # Copy the settings here because the git context of buildx action ignores file modifications before the build
 COPY infrastructure/cloud_local_settings.py /app/django_server/local_settings.py
-COPY --from=venv-installation-image /opt/venv /opt/venv
+COPY --from=venv-installation-image venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 ENTRYPOINT ["bash", "entrypoint.sh"]
 

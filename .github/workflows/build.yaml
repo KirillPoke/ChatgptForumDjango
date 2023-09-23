@@ -36,6 +36,9 @@ jobs:
       - name: Create settings
         run: |
           cp infrastructure/cloud_local_settings.py django_server/local_settings.py
+          ls
+          cd django_server
+          ls
 
       - name: Build and push
         uses: docker/build-push-action@v5

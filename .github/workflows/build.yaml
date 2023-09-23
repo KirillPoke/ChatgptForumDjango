@@ -11,7 +11,7 @@ env:
   ECS_CLUSTER: GPTForumDev                 # set this to your Amazon ECS cluster name
   ECS_TASK_DEFINITION: infrastructure/task-definition.json # set this to the path to your Amazon ECS task definition
   CONTAINER_NAME: server          # set this to the name of the container in the
-  # containerDefinitions section of your task definition
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,6 +19,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - uses: oNaiPs/secrets-to-env-action@v1
+        with:
+          secrets: ${{ toJSON(secrets) }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -28,6 +32,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create settings
+        run: |
+          cp infrastructure/cloud_local_settings.py django_server/local_settings.py
 
       - name: Build and push
         uses: docker/build-push-action@v5

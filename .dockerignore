@@ -1,3 +1,4 @@
 .github
 infrastructure
 venv
+django_server/local_settings.py

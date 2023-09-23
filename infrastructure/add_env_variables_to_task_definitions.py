@@ -4,10 +4,10 @@ import os
 if __name__ == "__main__":
     google_env_vars = ["JWT_SECRET_KEY", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
     db_env_vars = ["DB_USER", "DB_PASSWORD", "DB_HOST"]
-    openai_env_vars = ["OPENAI_API_KEY"]
+    misc_env_vars = ["OPENAI_API_KEY", "DJANGO_SECRET_KEY"]
 
     environment_json = []
-    for env_var in [*google_env_vars, *db_env_vars, *openai_env_vars]:
+    for env_var in [*google_env_vars, *db_env_vars, *misc_env_vars]:
         env_dict = {"name": env_var, "value": os.environ.get(env_var)}
         environment_json.append(env_dict)
     with open("infrastructure/task-definition.json") as task_definition_file:

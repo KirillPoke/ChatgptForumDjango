@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure--q=qt99y_rntp5-x2aqi7b4!v53gm#ixtxypg8*v=*eqns!x#3"
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,6 +29,7 @@ DEBUG = True
 
 INSTALLED_APPS = [
     "daphne",
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -37,10 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_server",
     "rest_framework",
-    "corsheaders",
     "rest_framework.authtoken",
 ]
-ASGI_APPLICATION = "myproject.asgi.application"
+ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
@@ -136,8 +136,8 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
-CSRF_COOKIE_SECURE = False
+
+# CSRF_COOKIE_SECURE = False
 AUTH_USER_MODEL = "django_server.User"
 
 SIMPLE_JWT = {

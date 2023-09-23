@@ -17,5 +17,5 @@ DATABASES = {
     }
 }
 SESSION_COOKIE_SECURE = False
-
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 openai.api_key = os.environ.get("OPENAI_API_KEY")

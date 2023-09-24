@@ -70,17 +70,5 @@
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"
   },
-  "networkConfiguration": {
-    "awsvpcConfiguration": {
-      "subnets": [
-        "subnet-00583508540911847",
-        "subnet-0948d3768db3ca515"
-      ],
-      "securityGroups": [
-        "sg-0608465f81491c082"
-      ],
-      "assignPublicIp": "DISABLED"
-    }
-  },
   "tags": []
 }

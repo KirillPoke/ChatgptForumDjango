@@ -57,6 +57,7 @@
     }
   ],
   "family": "GPTForum",
+  "taskRoleArn": "arn:aws:iam::042993547532:role/ConnectToECSContainer",
   "executionRoleArn": "arn:aws:iam::042993547532:role/ecsTaskExecutionRole",
   "networkMode": "awsvpc",
   "volumes": [],
@@ -64,8 +65,8 @@
   "requiresCompatibilities": [
     "FARGATE"
   ],
-  "cpu": "512",
-  "memory": "1024",
+  "cpu": "256",
+  "memory": "512",
   "runtimePlatform": {
     "cpuArchitecture": "X86_64",
     "operatingSystemFamily": "LINUX"

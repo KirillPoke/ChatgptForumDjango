@@ -13,5 +13,6 @@ if __name__ == "__main__":
     with open("infrastructure/task-definition.json") as task_definition_file:
         task_definition = json.load(task_definition_file)
         task_definition["containerDefinitions"][0]["environment"] = environment_json
+    del task_definition["containerDefinitions"][1]  # Delete nginx container for now
     with open("infrastructure/task-definition.json", "w") as task_definition_file:
         json.dump(task_definition, task_definition_file, indent=4)

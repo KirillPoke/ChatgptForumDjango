@@ -55,7 +55,7 @@ jobs:
           tags: public.ecr.aws/w9e5u8a2/gpt-forum:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
+      - run: echo ${{ steps.login-ecr.outputs.registry }}
       - run: docker ps
 
       - name: Push to ECR

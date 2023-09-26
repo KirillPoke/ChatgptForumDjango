@@ -3,7 +3,7 @@ name: Docker Build and Push
 on:
   push:
     branches:
-    #- implement-cd For now don't build
+      - implement-cd
 
 env:
   AWS_REGION: eu-west-1                   # set this to your preferred AWS region, e.g. us-west-1
@@ -35,18 +35,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: kr651/gpt-forum:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      - name: Add environment variables to task definition
-        id: run-script
-        run: python infrastructure/add_env_variables_to_task_definitions.py
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -54,11 +42,25 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Deploy to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
         with:
-          task-definition: infrastructure/task-definition.json
-          network-configuration: infrastructure/network-configuration.json
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+          push: true
+          tags: public.ecr.aws/w9e5u8a2/gpt-forum:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+#
+#      - name: Add environment variables to task definition
+#        id: run-script
+#        run: python infrastructure/add_env_variables_to_task_definitions.py
+#
+
+#      - name: Deploy to Amazon ECS
+#        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#        with:
+#          task-definition: infrastructure/task-definition.json
+#          network-configuration: infrastructure/network-configuration.json
+#          service: ${{ env.ECS_SERVICE }}
+#          cluster: ${{ env.ECS_CLUSTER }}
+#          wait-for-service-stability: true

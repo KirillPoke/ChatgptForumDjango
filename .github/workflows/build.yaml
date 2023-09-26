@@ -55,11 +55,11 @@ jobs:
           tags: public.ecr.aws/w9e5u8a2/gpt-forum:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      - run: echo ${{ steps.login-ecr.outputs.registry }}
+          
       - run: docker ps
 
       - name: Push to ECR
-        run: docker push public.ecr.aws/w9e5u8a2/gpt-forum:latest
+        run: docker push ${{ steps.login-ecr.outputs.registry }}/w9e5u8a2/gpt-forum:latest
 #
 #      - name: Add environment variables to task definition
 #        id: run-script

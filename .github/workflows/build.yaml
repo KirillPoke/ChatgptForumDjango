@@ -51,10 +51,15 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          push: true
+          push: false
           tags: public.ecr.aws/w9e5u8a2/gpt-forum:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - run: docker ps
+
+      - name: Push to ECR
+        run: docker push public.ecr.aws/w9e5u8a2/gpt-forum:latest
 #
 #      - name: Add environment variables to task definition
 #        id: run-script

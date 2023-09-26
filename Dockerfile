@@ -1,5 +1,5 @@
 FROM python:3.11-slim-bullseye
-EXPOSE 8000
+EXPOSE 80
 WORKDIR /app
 RUN apt-get update && apt-get -y install libpq-dev gcc
 COPY pyproject.toml poetry.lock poetry.toml /app/

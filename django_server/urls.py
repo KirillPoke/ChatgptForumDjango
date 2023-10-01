@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenRefreshView
+from django.conf.urls.static import static
 
+from django_server import settings
 from django_server.subviews.auth import Login
 from django_server.subviews.score import CommentScoreViewSet, PostScoreViewSet
 from django_server.subviews.posts import PostViewSet
@@ -37,4 +39,4 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("comments/tree", CommentTree.as_view(), name="comments_tree"),
     path("", include(router.urls)),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

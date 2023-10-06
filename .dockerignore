@@ -1,3 +1,4 @@
 .github
-infrastructure
+.git
 venv
+.idea

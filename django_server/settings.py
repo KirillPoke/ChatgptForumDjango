@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -19,15 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure--q=qt99y_rntp5-x2aqi7b4!v53gm#ixtxypg8*v=*eqns!x#3"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 # Application definition
 
 INSTALLED_APPS = [
+    "corsheaders",
+    "daphne",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -36,13 +33,13 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_server",
     "rest_framework",
-    "corsheaders",
     "rest_framework.authtoken",
 ]
-
+ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -52,7 +49,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "django_server.urls"
-
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -68,7 +69,6 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = "django_server.wsgi.application"
 
 REST_FRAMEWORK = {
@@ -78,13 +78,17 @@ REST_FRAMEWORK = {
         "django_server.authentication_classes.permissions.AllowBasedOnMethod"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        # 'django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend',
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
+        # "django.contrib.auth.backends.ModelBackend",
+        # This is the default that allows us to log in via username for admin
     ],
 }
+
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username
+    "rest_framework_simplejwt.authentication.JWTAuthentication",
     "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
+    "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username for admin
 ]
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -129,14 +133,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# STATICFILES_DIRS = ["/app/static/"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
-CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = False
 AUTH_USER_MODEL = "django_server.User"
 
 SIMPLE_JWT = {
@@ -145,4 +151,18 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
     "LEEWAY": 60,
 }
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "loggers": {
+        "django": {"handlers": ["console"], "level": "INFO"},
+    },
+}
+
 from .local_settings import *  # noqa: F401, E402, F403

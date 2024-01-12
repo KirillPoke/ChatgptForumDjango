@@ -69,7 +69,6 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = "django_server.wsgi.application"
 
 REST_FRAMEWORK = {
@@ -79,13 +78,17 @@ REST_FRAMEWORK = {
         "django_server.authentication_classes.permissions.AllowBasedOnMethod"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        # 'django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend',
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
+        # "django.contrib.auth.backends.ModelBackend",
+        # This is the default that allows us to log in via username for admin
     ],
 }
+
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username
+    "rest_framework_simplejwt.authentication.JWTAuthentication",
     "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
+    "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username for admin
 ]
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

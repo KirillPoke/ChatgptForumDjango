@@ -6,9 +6,7 @@ from django_server.models import User
 
 
 def registrate_user(user_data):
-    new_user = User.objects.create(
-        google_id=user_data["id"], name=user_data["name"], email=user_data["email"]
-    )
+    new_user = User.objects.create(name=user_data["name"], email=user_data["email"])
     return new_user
 
 
@@ -34,7 +32,3 @@ class GoogleAuthBackend(BaseBackend):
             return User.objects.get(id=user_id)
         except User.DoesNotExist:
             return None
-
-    #
-    # def authenticate_header(self, request):
-    #     return 'Google JWT token'

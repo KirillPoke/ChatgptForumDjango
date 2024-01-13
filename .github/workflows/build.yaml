@@ -35,6 +35,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Add environment variables to task definition
+        id: run-script
+        run: python infrastructure/add_env_variables_to_task_definitions.py
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -42,10 +46,6 @@ jobs:
           tags: kr651/gpt-forum:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Add environment variables to task definition
-        id: run-script
-        run: python infrastructure/add_env_variables_to_task_definitions.py
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4

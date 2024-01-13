@@ -1,6 +1,7 @@
 # from openai import ChatCompletion
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from openai import ChatCompletion
 
 from django_server.ai.PromptEligibility import eligible_for_prompt
 from django_server.models import Comment, CommentScore
@@ -22,14 +23,14 @@ def generate_chat_history(comment):
 
 
 def create_ai_comment(message_history):
-    # response = ChatCompletion.create(
-    #     model="gpt-3.5-turbo",
-    #     messages=message_history,
-    #     max_tokens=128,
-    # )
-    # comment_text = response.choices[0].message['content']
-    # return comment_text
-    return "Dummy ai comment"
+    response = ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=message_history,
+        max_tokens=128,
+    )
+    comment_text = response.choices[0].message["content"]
+    return comment_text
+    # return "Dummy ai comment"
 
 
 def generate_completion_prompt(comment):

@@ -9,14 +9,10 @@ from django_server.models import User
 
 def registrate_user(user_data):
     try:
-        logging.info(
-            f"Trying to register user with name: {user_data.get('name')}, email: {user_data.get('email')}"
-        )
         new_user = User.objects.create(name=user_data["name"], email=user_data["email"])
     except Exception as e:
         logging.error(f"Failed to register user, error: {e}")
         raise e
-    logging.info("Registrated new user")
     return new_user
 
 
@@ -27,11 +23,9 @@ class GoogleAuthBackend(BaseBackend):
                 user_data = id_token.verify_oauth2_token(
                     token, Request(), GOOGLE_CLIENT_ID
                 )
-                logging.info(f"email: {user_data.get('email', 'no email')}")
                 try:
                     user = User.objects.get(email=user_data["email"])
                 except User.DoesNotExist:
-                    logging.info("registrating user")
                     user = registrate_user(user_data)
                 return user
             except Exception:

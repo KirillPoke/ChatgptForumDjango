@@ -25,7 +25,8 @@
           "awslogs-stream-prefix": "ecs"
         },
         "secretOptions": []
-      }
+      },
+      "stopTimeout": 5
     }
   ],
   "family": "GPTForum",

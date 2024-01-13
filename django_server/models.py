@@ -48,7 +48,6 @@ def get_default_user_display_name():
 class User(AbstractBaseUser, PermissionsMixin):
     id = AutoField(primary_key=True)
     email = EmailField(unique=True)
-    google_id = CharField(max_length=255, unique=True)
     name = CharField(max_length=255, unique=True, default=get_default_user_display_name)
     created_at = DateTimeField(auto_now_add=True)
     is_superuser = BooleanField(default=False)

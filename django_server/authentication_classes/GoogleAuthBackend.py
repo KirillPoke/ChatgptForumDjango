@@ -22,7 +22,6 @@ def registrate_user(user_data):
 
 class GoogleAuthBackend(BaseBackend):
     def authenticate(self, request, token=None):
-        logging.info(f"got token, length: {len(str(token))}")
         if token:
             try:
                 user_data = id_token.verify_oauth2_token(
@@ -38,7 +37,6 @@ class GoogleAuthBackend(BaseBackend):
             except Exception:
                 return None
         else:
-            logging.info("no token")
             return None
 
     def get_user(self, user_id):

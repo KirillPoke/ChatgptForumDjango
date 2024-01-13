@@ -26,34 +26,6 @@
         },
         "secretOptions": []
       }
-    },
-    {
-      "name": "nginx",
-      "image": "nginx",
-      "portMappings": [
-        {
-          "name": "nginx",
-          "containerPort": 80,
-          "hostPort": 80,
-          "protocol": "tcp",
-          "appProtocol": "http2"
-        }
-      ],
-      "essential": true,
-      "environment": [],
-      "environmentFiles": [],
-      "mountPoints": [],
-      "volumesFrom": [],
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-create-group": "true",
-          "awslogs-group": "/ecs/GPTForum",
-          "awslogs-region": "eu-west-1",
-          "awslogs-stream-prefix": "ecs"
-        },
-        "secretOptions": []
-      }
     }
   ],
   "family": "GPTForum",

@@ -36,7 +36,7 @@ router.register("users", UserViewSet)
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("token/", Login.as_view(), name="token_obtain_pair"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
     path("comments/tree", CommentTree.as_view(), name="comments_tree"),
     path("", include(router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

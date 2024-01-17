@@ -27,7 +27,7 @@ class JWTSerializer(TokenObtainPairSerializer):
         if "jwt" in attrs:
             self.user = authenticate(token=attrs["jwt"])
             if not self.user:
-                raise "Failed to authenticate user"
+                raise Exception("Failed to authenticate user")
             refresh = self.get_token(self.user)
             validated_data = {
                 "refresh": str(refresh),

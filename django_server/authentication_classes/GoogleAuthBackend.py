@@ -28,7 +28,8 @@ class GoogleAuthBackend(BaseBackend):
                 except User.DoesNotExist:
                     user = registrate_user(user_data)
                 return user
-            except Exception:
+            except Exception as e:
+                logging.error(f"Failed to login user with google, error:{e}")
                 return None
         else:
             return None

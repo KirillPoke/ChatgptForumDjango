@@ -68,3 +68,14 @@ class AllowOwner(BasePermission):
 
     def has_permission(self, request, view):
         return allow_owner(request, view)
+
+
+class AllowCommentSubmitToPostAuthor(BasePermission):
+    def has_permission(self, request, view):
+        view_queryset = view.get_queryset().filter(**view.kwargs)
+        is_payload_allowed = {"is_prompt": True} == request.data
+        is_single_comment = view_queryset.count() == 1
+        comment = view_queryset[0]
+        post_owner = comment.post.author
+        user_is_owner = post_owner == request.user
+        return is_single_comment and is_payload_allowed and user_is_owner

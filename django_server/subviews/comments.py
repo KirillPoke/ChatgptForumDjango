@@ -5,6 +5,10 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import ModelViewSet
 
 from django_server.ai.Completions import generate_completion_prompt
+from django_server.authentication_classes.permissions import (
+    AllowCommentSubmitToPostAuthor,
+    AllowBasedOnMethod,
+)
 from django_server.models import Comment
 from django_server.subserializers.comments import (
     CommentSerializer,
@@ -13,6 +17,7 @@ from django_server.subserializers.comments import (
 
 
 class CommentViewSet(ModelViewSet):
+    permission_classes = [AllowBasedOnMethod | AllowCommentSubmitToPostAuthor]
     queryset = Comment.objects.all().order_by("id")
 
     def get_queryset(self):

@@ -25,7 +25,7 @@ def create_ai_comment(message_history):
     response = ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=message_history,
-        max_tokens=128,
+        max_tokens=1024,
     )
     comment_text = response.choices[0].message["content"]
     return comment_text

@@ -2,7 +2,7 @@ from django_server.models import Comment, SCORE
 
 COMMENT_SCORE_TO_POST_SCORE_RATIO = 10
 COMMENT_SCORE_TO_PARENT_SCORE_RATIO = 2
-MINIMUM_COMMENT_SCORE = 5
+MINIMUM_COMMENT_SCORE = 3
 
 
 def eligible_for_prompt(comment: Comment) -> bool:

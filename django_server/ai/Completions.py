@@ -1,3 +1,5 @@
+import logging
+
 from openai import ChatCompletion
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -43,4 +45,7 @@ def generate_completion_prompt(comment):
 @receiver(post_save, sender=CommentScore)
 def check_prompt_eligibility(sender, instance, **kwargs):
     if eligible_for_prompt(instance.comment):
+        logging.info(
+            f"Comment was submitted as a prompt, id: {instance.comment.id}, score: {instance.comment.total_score}"
+        )
         generate_completion_prompt(instance.comment)

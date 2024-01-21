@@ -21,7 +21,7 @@ class GoogleAuthBackend(BaseBackend):
         if token:
             try:
                 user_data = id_token.verify_oauth2_token(
-                    token, Request(), GOOGLE_CLIENT_ID
+                    token, Request(), GOOGLE_CLIENT_ID, clock_skew_in_seconds=2
                 )
                 try:
                     user = User.objects.get(email=user_data["email"])

@@ -53,3 +53,5 @@ def check_prompt_eligibility(sender, instance, **kwargs):
             f"Comment was submitted as a prompt, id: {instance.comment.id}, score: {instance.comment.total_score}"
         )
         generate_completion_prompt(instance.comment)
+        instance.comment.is_prompt = True
+        instance.comment.save()

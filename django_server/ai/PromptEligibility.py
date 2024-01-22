@@ -10,6 +10,8 @@ def eligible_for_prompt(comment: Comment) -> bool:
         return False
     if not comment.author:  # Don't make prompts out of ai comments
         return False
+    if comment.is_prompt:
+        return False
     comment_score = comment.total_score
     if comment_score < MINIMUM_COMMENT_SCORE:
         return False

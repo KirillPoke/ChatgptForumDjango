@@ -12,10 +12,14 @@ def generate_chat_history(comment):
     messages_list = [
         {"role": "system", "content": comment.post.chat_role},
     ]
-    previous_comments = comment.ancestors(include_self=True).values_list(
+    previous_comments = comment.ancestors(include_self=True)
+    tree_depth = comment.ancestors(include_self=True).count()
+    slice_index = 0 if tree_depth <= 5 else tree_depth - 5
+    sliced_previous_comments = previous_comments[slice_index:]
+    sliced_previous_comments = sliced_previous_comments.values_list(
         "text", "author"
-    )
-    for comment in previous_comments:
+    )  # For now limit to 5 messages, TODO: make it dynamic based on token usage of comments
+    for comment in sliced_previous_comments:
         if comment[1] is None:
             messages_list.append({"role": "assistant", "content": comment[0]})
         else:

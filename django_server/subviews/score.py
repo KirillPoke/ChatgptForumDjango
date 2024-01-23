@@ -31,8 +31,9 @@ class ScoreViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         upvote = serializer.validated_data["upvote"]
         if self.get_queryset().exists():
-            self.get_queryset().first().upvote = upvote
-            self.get_queryset().first().save()
+            score_instance = self.get_queryset().first()
+            score_instance.upvote = upvote
+            score_instance.save()
             return HttpResponse(status.HTTP_200_OK)
         else:
             return HttpResponse(status=status.HTTP_404_NOT_FOUND)

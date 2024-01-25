@@ -168,7 +168,7 @@ LOGGING = {
 
 # settings.py example
 Q_CLUSTER = {
-    "name": "django_server",
+    "name": "qcluster",
     "recycle": 500,
     "timeout": 15,
     "queue_limit": 4,
@@ -181,5 +181,4 @@ Q_CLUSTER = {
         "db": 0,
     },
 }
-SECRET_KEY = "test"
 from .local_settings import *  # noqa: F401, E402, F403

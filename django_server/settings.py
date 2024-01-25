@@ -25,6 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 INSTALLED_APPS = [
     "corsheaders",
     "daphne",
+    "django_q",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -34,7 +35,6 @@ INSTALLED_APPS = [
     "django_server",
     "rest_framework",
     "rest_framework.authtoken",
-    "django_q",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [

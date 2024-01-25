@@ -44,7 +44,17 @@
       "environment": [],
       "mountPoints": [],
       "volumesFrom": [],
-      "stopTimeout": 5
+      "stopTimeout": 5,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-create-group": "true",
+          "awslogs-group": "/ecs/GPTForum",
+          "awslogs-region": "eu-west-1",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": []
+      }
     }
   ],
   "family": "GPTForum",

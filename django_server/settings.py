@@ -31,10 +31,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_q",
     "django_server",
     "rest_framework",
     "rest_framework.authtoken",
-    "django_q",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [

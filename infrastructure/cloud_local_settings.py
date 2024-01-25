@@ -18,7 +18,7 @@ DATABASES = {
     }
 }
 SESSION_COOKIE_SECURE = False
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "test")
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 CORS_ALLOWED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",

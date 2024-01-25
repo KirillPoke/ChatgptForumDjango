@@ -27,8 +27,8 @@ jobs:
       - uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
-      - run: set DJANGO_SECRET_KEY=test
-      - run: printenv
+      #      - run: set DJANGO_SECRET_KEY=test
+      #      - run: printenv
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -49,6 +49,8 @@ jobs:
           tags: kr651/gpt-forum:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+        env:
+          DJANGO_SECRET_KEY: "test"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4

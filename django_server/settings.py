@@ -181,5 +181,5 @@ Q_CLUSTER = {
         "db": 0,
     },
 }
-
+SECRET_KEY = "test"
 from .local_settings import *  # noqa: F401, E402, F403

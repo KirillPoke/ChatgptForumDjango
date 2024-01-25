@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django_server",
     "rest_framework",
     "rest_framework.authtoken",
+    "django_q",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [
@@ -162,6 +163,22 @@ LOGGING = {
     },
     "loggers": {
         "django": {"handlers": ["console"], "level": "INFO"},
+    },
+}
+
+# settings.py example
+Q_CLUSTER = {
+    "name": "django_server",
+    "recycle": 500,
+    "timeout": 15,
+    "queue_limit": 4,
+    "cpu_affinity": 1,
+    "label": "Django Q",
+    "max_attempts": 1,
+    "redis": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "db": 0,
     },
 }
 

@@ -27,7 +27,7 @@ jobs:
       - uses: oNaiPs/secrets-to-env-action@v1
         with:
           secrets: ${{ toJSON(secrets) }}
-
+      - run: printenv
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 

@@ -12,7 +12,7 @@
           "appProtocol": "http2"
         },
         {
-          "name": "redis_port",
+          "name": "redis_port_django",
           "containerPort": 6379,
           "hostPort": 6379,
           "protocol": "tcp",

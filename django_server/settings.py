@@ -176,7 +176,7 @@ Q_CLUSTER = {
     "label": "Django Q",
     "max_attempts": 1,
     "redis": {
-        "host": "0.0.0.0",
+        "host": "localhost",
         "port": 6379,
         "db": 0,
     },

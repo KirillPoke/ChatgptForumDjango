@@ -10,6 +10,13 @@
           "hostPort": 443,
           "protocol": "tcp",
           "appProtocol": "http2"
+        },
+        {
+          "name": "redis_port",
+          "containerPort": 6379,
+          "hostPort": 6379,
+          "protocol": "tcp",
+          "appProtocol": "http2"
         }
       ],
       "essential": true,

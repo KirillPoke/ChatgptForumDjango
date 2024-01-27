@@ -10,13 +10,6 @@
           "hostPort": 443,
           "protocol": "tcp",
           "appProtocol": "http2"
-        },
-        {
-          "name": "redis_port_django",
-          "containerPort": 6379,
-          "hostPort": 6379,
-          "protocol": "tcp",
-          "appProtocol": "http2"
         }
       ],
       "essential": true,
@@ -34,34 +27,6 @@
         "secretOptions": []
       },
       "stopTimeout": 5
-    },
-    {
-      "name": "redis",
-      "image": "redis/redis-stack:latest",
-      "portMappings": [
-        {
-          "name": "redis_port",
-          "containerPort": 6379,
-          "hostPort": 6379,
-          "protocol": "tcp",
-          "appProtocol": "http2"
-        }
-      ],
-      "essential": true,
-      "environment": [],
-      "mountPoints": [],
-      "volumesFrom": [],
-      "stopTimeout": 5,
-      "logConfiguration": {
-        "logDriver": "awslogs",
-        "options": {
-          "awslogs-create-group": "true",
-          "awslogs-group": "/ecs/GPTForum",
-          "awslogs-region": "eu-west-1",
-          "awslogs-stream-prefix": "ecs"
-        },
-        "secretOptions": []
-      }
     }
   ],
   "family": "GPTForum",

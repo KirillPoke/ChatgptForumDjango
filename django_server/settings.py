@@ -164,7 +164,7 @@ Q_CLUSTER = {
     "label": "Django Q",
     "max_attempts": 1,
     "redis": {
-        "host": os.environ.get("REDIS_HOST"),
+        "host": os.environ.get("REDIS_HOST", "Test"),
         "port": 6379,
         "db": 0,
     },

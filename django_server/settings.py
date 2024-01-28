@@ -176,7 +176,7 @@ Q_CLUSTER = {
     "label": "Django Q",
     "max_attempts": 1,
     "redis": {
-        "host": "http://djangoqcache.dpsyfk.clustercfg.euw1.cache.amazonaws.com",
+        "host": "djangoqcache.dpsyfk.ng.0001.euw1.cache.amazonaws.com",
         "port": 6379,
         "db": 0,
     },

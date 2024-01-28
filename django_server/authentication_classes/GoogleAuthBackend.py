@@ -3,7 +3,7 @@ import logging
 from django.contrib.auth.backends import BaseBackend
 from google.oauth2 import id_token
 from google.auth.transport.requests import Request
-from django_server.local_settings import GOOGLE_CLIENT_ID
+from django_server.settings import GOOGLE_CLIENT_ID
 from django_server.models import User
 
 

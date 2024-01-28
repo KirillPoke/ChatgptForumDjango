@@ -166,19 +166,4 @@ LOGGING = {
     },
 }
 
-# settings.py example
-Q_CLUSTER = {
-    "name": "qcluster",
-    "recycle": 500,
-    "timeout": 15,
-    "queue_limit": 4,
-    "cpu_affinity": 1,
-    "label": "Django Q",
-    "max_attempts": 1,
-    "redis": {
-        "host": "djangoqcache.dpsyfk.ng.0001.euw1.cache.amazonaws.com",
-        "port": 6379,
-        "db": 0,
-    },
-}
 from .local_settings import *  # noqa: F401, E402, F403

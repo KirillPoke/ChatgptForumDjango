@@ -17,6 +17,12 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": f"{os.environ.get('REDIS_HOST')}:6379",
+    }
+}
 SESSION_COOKIE_SECURE = False
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "test3")
 openai.api_key = os.environ.get("OPENAI_API_KEY")
@@ -29,3 +35,19 @@ CSRF_TRUSTED_ORIGINS = [
     "http://chatgpt-forum-fe.vercel.app",
     "https://kirillras.net",
 ]
+
+# settings.py example
+Q_CLUSTER = {
+    "name": "qcluster",
+    "recycle": 500,
+    "timeout": 15,
+    "queue_limit": 4,
+    "cpu_affinity": 1,
+    "label": "Django Q",
+    "max_attempts": 1,
+    "redis": {
+        "host": os.environ.get("REDIS_HOST"),
+        "port": 6379,
+        "db": 0,
+    },
+}

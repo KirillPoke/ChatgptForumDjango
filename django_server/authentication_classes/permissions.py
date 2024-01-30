@@ -15,7 +15,7 @@ def allow_authenticated(request, *args, **kwargs):
 
 def allow_owner(request, view, **kwargs):
     owner_field = view.queryset.model.owner_field()
-    filter_kwargs = {**view.kwargs, f"{owner_field}": request.user}
+    filter_kwargs = {**view.kwargs, f"{owner_field}": request.user.id}
     view_queryset = view.get_queryset().filter(**filter_kwargs)
 
     #   Only works if for the queryset there is only one owner.

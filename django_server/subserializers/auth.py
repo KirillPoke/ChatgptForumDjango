@@ -7,7 +7,7 @@ from rest_framework_simplejwt.serializers import (
     PasswordField,
 )
 
-from django_server.local_settings import GOOGLE_CLIENT_ID
+from django_server.settings import GOOGLE_CLIENT_ID
 
 
 class JWTSerializer(TokenObtainPairSerializer):

@@ -91,7 +91,7 @@ class Post(Model):
 
     @staticmethod
     def owner_field():
-        return "author"
+        return "author_id"
 
     @property
     def total_score(self):
@@ -112,7 +112,7 @@ class Comment(TreeNode):
 
     @staticmethod
     def owner_field():
-        return "author"
+        return "author_id"
 
     @property
     def total_score(self):
@@ -132,7 +132,7 @@ class CommentScore(Model):
 
     @staticmethod
     def owner_field():
-        return "user"
+        return "user_id"
 
     class Meta:
         unique_together = ("user", "comment")
@@ -151,4 +151,4 @@ class PostScore(Model):
 
     @staticmethod
     def owner_field():
-        return "user"
+        return "user_id"

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+import openai
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 INSTALLED_APPS = [
     "corsheaders",
     "daphne",
+    "django_q",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -90,18 +92,6 @@ AUTHENTICATION_BACKENDS = [
     "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
     "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username for admin
 ]
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-    }
-}
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -141,7 +131,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ALLOWED_HOSTS = ["*"]
-SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = False
 AUTH_USER_MODEL = "django_server.User"
 
@@ -165,4 +154,57 @@ LOGGING = {
     },
 }
 
-from .local_settings import *  # noqa: F401, E402, F403
+# settings.py example
+Q_CLUSTER = {
+    "name": "qcluster",
+    "recycle": 500,
+    "timeout": 15,
+    "queue_limit": 4,
+    "cpu_affinity": 1,
+    "label": "Django Q",
+    "max_attempts": 1,
+    "redis": {
+        "host": os.environ.get("REDIS_HOST", "Test"),
+        "port": 6379,
+        "db": 0,
+    },
+}
+
+JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
+JWT_ALGORITHM = "HS256"
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "postgres",
+        "USER": os.environ.get("RDS_DB_USER"),
+        "PASSWORD": os.environ.get("RDS_DB_PASSWORD"),
+        "HOST": os.environ.get("DB_HOST"),
+        "PORT": "5432",
+    }
+}
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": f"{os.environ.get('REDIS_HOST')}:6379",
+    }
+}
+SESSION_COOKIE_SECURE = False
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "test3")
+openai.api_key = os.environ.get("OPENAI_API_KEY")
+CORS_ALLOWED_ORIGINS = [
+    "https://chatgpt-forum-fe.vercel.app",
+    "http://chatgpt-forum-fe.vercel.app",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://chatgpt-forum-fe.vercel.app",
+    "http://chatgpt-forum-fe.vercel.app",
+    "https://kirillras.net",
+]
+try:
+    from .local_settings import *  # noqa: F401, E402, F403
+except ImportError:
+    pass

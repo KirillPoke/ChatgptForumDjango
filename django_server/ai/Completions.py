@@ -1,5 +1,5 @@
 import logging
-
+from django_q.tasks import async_task
 from openai import ChatCompletion
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -44,6 +44,8 @@ def generate_completion_prompt(comment):
     Comment.objects.create(
         text=comment_text, post=comment.post, parent=comment, author=None
     )
+    comment.is_prompt = True
+    comment.save()
 
 
 @receiver(post_save, sender=CommentScore)
@@ -52,6 +54,4 @@ def check_prompt_eligibility(sender, instance, **kwargs):
         logging.info(
             f"Comment was submitted as a prompt, id: {instance.comment.id}, score: {instance.comment.total_score}"
         )
-        generate_completion_prompt(instance.comment)
-        instance.comment.is_prompt = True
-        instance.comment.save()
+        async_task(generate_completion_prompt, instance.comment)

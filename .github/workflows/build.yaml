@@ -48,8 +48,6 @@ jobs:
           tags: kr651/gpt-forum:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-        env:
-          DJANGO_SECRET_KEY: "test2"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4

@@ -1,3 +1,6 @@
+from django.http import JsonResponse
+from rest_framework import status
+from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import ModelViewSet
 
 from django_server.models import Post
@@ -17,5 +20,19 @@ class PostViewSet(ModelViewSet):
         queryset = self.queryset.filter(**query_params)
         return queryset
 
-    # def list(self, *args, **kwargs):
-    #     print(1)
+
+class PostMetaViewSet(GenericAPIView):
+    model = Post
+
+    def get_meta_data(self, fields):
+        metadata_handlers = {"count": lambda: self.model.objects.count()}
+        metadata_dict = dict()
+        for field in fields:
+            metadata_dict[field] = metadata_handlers[field]()
+        return metadata_dict
+
+    def get(self, request):
+        fields_to_return = request.query_params.dict().get("fields").split(",")
+        return JsonResponse(
+            self.get_meta_data(fields_to_return), status=status.HTTP_200_OK, safe=False
+        )

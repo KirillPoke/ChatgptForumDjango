@@ -189,7 +189,7 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": f"{os.environ.get('REDIS_HOST')}:6379",
+        "LOCATION": f"redis://{os.environ.get('REDIS_HOST')}:6379",
     }
 }
 SESSION_COOKIE_SECURE = False

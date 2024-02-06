@@ -31,11 +31,11 @@ def allow_owner(request, view, **kwargs):
     #   Check that the single owner of the queryset is the user
     if owner_field != "id":
         is_owner = (
-            getattr(view_queryset.first(), owner_field) == request.user
+            getattr(view_queryset.first(), owner_field) == request.user.id
         )  # For models with FK owner_field
     else:
         is_owner = (
-            view_queryset.first() == request.user
+            view_queryset.first() == request.user.id
         )  # For models with PK owner_field
 
     return request.user.is_authenticated and is_owner and single_owner_in_query

@@ -1,5 +1,3 @@
-from django.utils.decorators import method_decorator
-from django.views.decorators.cache import cache_page
 from rest_framework.viewsets import ModelViewSet
 
 from django_server.models import Post
@@ -19,6 +17,6 @@ class PostViewSet(ModelViewSet):
         queryset = self.queryset.filter(**query_params)
         return queryset
 
-    @method_decorator(cache_page(60 * 10))
-    def list(self, *args, **kwargs):
-        return super().list(*args, **kwargs)
+    # @method_decorator(cache_page(60 * 10))
+    # def list(self, *args, **kwargs):
+    #     return super().list(*args, **kwargs)

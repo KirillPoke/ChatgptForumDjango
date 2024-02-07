@@ -13,7 +13,6 @@ env:
   CONTAINER_NAME: server          # set this to the name of the container in the
   DB_HOST: database-1.cedgctrvkeux.eu-west-1.rds.amazonaws.com
   #REDIS_HOST: djangoqcache.dpsyfk.ng.0001.euw1.cache.amazonaws.com
-  VERCEL_KV_HOST: redis://default:967258cc51354e48b09ea9ea52f045c6@shining-hermit-39166.upstash.io:39166
 jobs:
   build:
     runs-on: ubuntu-latest

@@ -1,3 +1,7 @@
+from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import UserManager
 from django.db.models import (
     Model,
     AutoField,
@@ -11,10 +15,6 @@ from django.db.models import (
     EmailField,
     ManyToManyField,
 )
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth.models import UserManager
-from django.contrib.auth.hashers import make_password
 from random_username.generate import generate_username
 from tree_queries.models import TreeNode
 
@@ -83,7 +83,7 @@ class Post(Model):
     title = CharField(max_length=255)
     created_at = DateTimeField(auto_now_add=True)
     chat_role = TextField(max_length=65535, default="You are a helpful assistant.")
-    tags = ManyToManyField(Tag)
+    tags = ManyToManyField(Tag, blank=True)
     prompt_mode = CharField(max_length=255, default=AUTHOR, choices=PROMPT_MODES)
 
     def __str__(self):

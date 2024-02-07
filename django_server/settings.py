@@ -186,12 +186,12 @@ DATABASES = {
         "PORT": "5432",
     }
 }
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": f"redis://{os.environ.get('REDIS_HOST')}:6379",
-    }
-}
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION": f"redis://{os.environ.get('REDIS_HOST')}:6379",
+#     }
+# }
 SESSION_COOKIE_SECURE = False
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "test3")
 openai.api_key = os.environ.get("OPENAI_API_KEY")

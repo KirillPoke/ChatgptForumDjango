@@ -30,6 +30,8 @@ class PostSerializer(ModelSerializer):
 
     def get_user_score(self, post):
         request = self.context.get("request")
+        if request is None:
+            return 0
         if request.user.is_authenticated:
             try:
                 post_score = PostScore.objects.get(user=request.user, post=post)

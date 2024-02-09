@@ -248,6 +248,17 @@ filecache = ["filelock (>=3.8.0)"]
 redis = ["redis (>=2.10.5)"]
 
 [[package]]
+name = "cached-property"
+version = "1.5.2"
+description = "A decorator for caching properties in classes."
+optional = false
+python-versions = "*"
+files = [
+    {file = "cached-property-1.5.2.tar.gz", hash = "sha256:9fa5755838eecbb2d234c3aa390bd80fbd3ac6b6869109bfc1b499f7bd89a130"},
+    {file = "cached_property-1.5.2-py2.py3-none-any.whl", hash = "sha256:df4f613cf7ad9a588cc381aaf4a512d26265ecebd5eb9e1ba12f1319eb85a6a0"},
+]
+
+[[package]]
 name = "cachetools"
 version = "5.3.2"
 description = "Extensible memoizing collections and decorators"
@@ -574,6 +585,21 @@ files = [
     {file = "distlib-0.3.8-py2.py3-none-any.whl", hash = "sha256:034db59a0b96f8ca18035f36290806a9a6e6bd9d1ff91e45a7f172eb17e51784"},
     {file = "distlib-0.3.8.tar.gz", hash = "sha256:1530ea13e350031b6312d8580ddb6b27a104275a31106523b8f123787f494f64"},
 ]
+
+[[package]]
+name = "dj-url-filter"
+version = "0.4.4"
+description = "Django URL Filter provides a safe way to filter data via human-friendly URLs."
+optional = false
+python-versions = ">=3.9,<4.0"
+files = [
+    {file = "dj_url_filter-0.4.4-py3-none-any.whl", hash = "sha256:43773a8a9c169e0b5539b916cb55693695a20c13ad0aeaa7a8ffd7f964ebd2a9"},
+    {file = "dj_url_filter-0.4.4.tar.gz", hash = "sha256:80cb8d71cbc296e10475b41d58ab8e172e9e8370ae08e5737bf68b9d7061a07e"},
+]
+
+[package.dependencies]
+cached-property = ">=1.5.2,<2.0.0"
+django = ">=3.2.4"
 
 [[package]]
 name = "django"
@@ -2491,4 +2517,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.10, <3.12"
-content-hash = "62af7f4ae174436856656c92119cf471714ebf747a1f8f516bbddfa235fd8eb6"
+content-hash = "a9ab91138218cee44d59f6f6fa876ef3aa44f9e02eb074b7f62b767e33c5da2b"

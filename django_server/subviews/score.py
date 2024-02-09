@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
+from django_server.filters.score import PostScoreFilter
 from django_server.models import CommentScore, PostScore
 from django_server.subserializers.score import (
     CommentScoreSerializer,
@@ -12,9 +13,12 @@ from django_server.subserializers.score import (
 
 class ScoreViewSet(ModelViewSet):
     def get_queryset(self):
-        query_params = self.request.query_params.dict()
-        query_params["user"] = self.request.user
-        queryset = self.queryset.filter(**query_params)
+        query_params = self.request.GET.copy()
+        if self.request.user.is_authenticated:
+            query_params["user_id"] = self.request.user.id
+        else:
+            query_params["user_id"] = None
+        queryset = PostScoreFilter(data=query_params, queryset=self.queryset).filter()
         return queryset
 
     @action(methods=["delete"], detail=False)

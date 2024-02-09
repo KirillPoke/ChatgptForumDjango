@@ -30,8 +30,8 @@ from django_server.subviews.user import UserViewSet
 router = routers.DefaultRouter()
 router.register("comments", CommentViewSet)
 router.register("posts", PostViewSet)
-router.register("comment_score", CommentScoreViewSet)
-router.register("post_score", PostScoreViewSet)
+router.register("comment_score", CommentScoreViewSet, basename="CommentScore")
+router.register("post_score", PostScoreViewSet, basename="PostScore")
 router.register("users", UserViewSet)
 urlpatterns = [
     path("admin/", admin.site.urls),

@@ -15,9 +15,9 @@ class ScoreViewSet(ModelViewSet):
     def get_queryset(self):
         query_params = self.request.GET.copy()
         if self.request.user.is_authenticated:
-            query_params["user_id"] = self.request.user.id
+            query_params["user"] = self.request.user.id
         else:
-            query_params["user_id"] = None
+            query_params["user"] = None
         queryset = PostScoreFilter(data=query_params, queryset=self.queryset).filter()
         return queryset
 

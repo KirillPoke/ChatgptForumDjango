@@ -19,10 +19,6 @@ class PostViewSet(ModelViewSet):
         queryset = self.queryset.filter(**query_params)
         return queryset
 
-    # def list(self, *args, **kwargs):
-    #     x = super().list(*args, **kwargs)
-    #     return x
-
     def list(self, request, *args, **kwargs):
         cached_data = cache.get("home_page_posts")
         if cached_data:
@@ -34,7 +30,7 @@ class PostViewSet(ModelViewSet):
             if page is not None:
                 serializer = self.get_serializer(page, many=True)
                 response = self.get_paginated_response(serializer.data)
-                cache.set("home_page_posts", response.data, 3600)
+                cache.set("home_page_posts", response.data, 60)
                 return response
 
             serializer = self.get_serializer(queryset, many=True)

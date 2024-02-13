@@ -156,7 +156,7 @@ LOGGING = {
 
 # settings.py example
 Q_CLUSTER = {
-    "name": "qcluster",
+    "name": "DjangoQ.fifo",
     "recycle": 500,
     "timeout": 15,
     "queue_limit": 4,

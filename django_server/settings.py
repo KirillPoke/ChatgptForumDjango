@@ -163,10 +163,10 @@ Q_CLUSTER = {
     "cpu_affinity": 1,
     "label": "Django Q",
     "max_attempts": 1,
-    "redis": {
-        "host": os.environ.get("REDIS_HOST", "Test"),
-        "port": 6379,
-        "db": 0,
+    "sqs": {
+        "aws_region": "eu-west-1",
+        "aws_access_key_id": "AKIAQUAU5PEGFNONBL2J",
+        "aws_secret_access_key": os.getenv("SQS_ACCESS_SECRET", "secret"),
     },
 }
 

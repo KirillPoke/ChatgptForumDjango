@@ -1,5 +1,3 @@
-from django.core.cache import cache
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from django_server.models import Post
@@ -19,19 +17,20 @@ class PostViewSet(ModelViewSet):
         queryset = self.queryset.filter(**query_params)
         return queryset
 
-    def list(self, request, *args, **kwargs):
-        cached_data = cache.get("home_page_posts")
-        if cached_data:
-            return Response(cached_data)
-        else:
-            queryset = self.filter_queryset(self.get_queryset())
-
-            page = self.paginate_queryset(queryset)
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                response = self.get_paginated_response(serializer.data)
-                cache.set("home_page_posts", response.data, 60)
-                return response
-
-            serializer = self.get_serializer(queryset, many=True)
-            return Response(serializer.data)
+    # TODO: Add caching if needed to speed up homepage
+    # def list(self, request, *args, **kwargs):
+    #     cached_data = cache.get("home_page_posts")
+    #     if cached_data:
+    #         return Response(cached_data)
+    #     else:
+    #         queryset = self.filter_queryset(self.get_queryset())
+    #
+    #         page = self.paginate_queryset(queryset)
+    #         if page is not None:
+    #             serializer = self.get_serializer(page, many=True)
+    #             response = self.get_paginated_response(serializer.data)
+    #             cache.set("home_page_posts", response.data, 60)
+    #             return response
+    #
+    #         serializer = self.get_serializer(queryset, many=True)
+    #         return Response(serializer.data)

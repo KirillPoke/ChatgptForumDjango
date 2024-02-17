@@ -50,13 +50,13 @@ def get_default_user_display_name():
 class User(AbstractBaseUser, PermissionsMixin):
     id = AutoField(primary_key=True)
     username = EmailField(unique=True)
+    email = EmailField(null=True)
     name = CharField(max_length=255, unique=True, default=get_default_user_display_name)
     created_at = DateTimeField(auto_now_add=True)
     is_superuser = BooleanField(default=False)
     is_staff = BooleanField(default=False)
     USERNAME_FIELD = "username"
-
-    # objects = GoogleUserManager()
+    objects = UserManager()
 
     def __str__(self):
         return self.name

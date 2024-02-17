@@ -25,6 +25,7 @@ django-q2 = "^1.6.1"
 redis = { extras = ["hiredis"], version = "^5.0.1" }
 dj-url-filter = "^0.4.4"
 boto3 = "^1.34.41"
+dj-rest-auth = "^5.0.2"
 django-allauth = "^0.61.1"
 
 [tool.poetry.group.dev.dependencies]

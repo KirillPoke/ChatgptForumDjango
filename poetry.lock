@@ -636,6 +636,23 @@ files = [
 ]
 
 [[package]]
+name = "dj-rest-auth"
+version = "5.0.2"
+description = "Authentication and Registration in Django Rest Framework"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "dj-rest-auth-5.0.2.tar.gz", hash = "sha256:aad7d912476169e9991547bf98645344d3939be2d7052098048d819524c115d9"},
+]
+
+[package.dependencies]
+Django = ">=3.2"
+djangorestframework = ">=3.13.0"
+
+[package.extras]
+with-social = ["django-allauth (>=0.56.0,<0.58.0)"]
+
+[[package]]
 name = "dj-url-filter"
 version = "0.4.4"
 description = "Django URL Filter provides a safe way to filter data via human-friendly URLs."
@@ -2684,4 +2701,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.10, <3.12"
-content-hash = "808557114ec325c6b462132fa60f5e1fab9464471298c0e900bdf753849d4a7e"
+content-hash = "e65c0ba167735652929caffea659a321bee65a5d131bc95a54418bfab582a821"

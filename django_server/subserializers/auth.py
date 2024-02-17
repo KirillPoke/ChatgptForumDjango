@@ -20,7 +20,7 @@ class JWTSerializer(TokenObtainPairSerializer):
         self.user = None
 
     jwt = serializers.CharField(max_length=2048, required=False)
-    email = serializers.EmailField(required=False)
+    username = serializers.EmailField(required=False)
     password = serializers.CharField(max_length=255, required=False)
 
     def validate(self, attrs):
@@ -42,5 +42,9 @@ class JWTSerializer(TokenObtainPairSerializer):
 def get_user_data(token):
     # validate the token and get the user information
     idinfo = id_token.verify_oauth2_token(token, Request(), GOOGLE_CLIENT_ID)
-    user_data = {"id": idinfo["sub"], "name": idinfo["name"], "email": idinfo["email"]}
+    user_data = {
+        "id": idinfo["sub"],
+        "name": idinfo["name"],
+        "username": idinfo["email"],
+    }
     return user_data

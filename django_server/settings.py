@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "allauth",
+    "allauth.account",
     "django.contrib.staticfiles",
     "django_server",
     "rest_framework",
@@ -48,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "django_server.urls"
@@ -91,6 +94,7 @@ AUTHENTICATION_BACKENDS = [
     "rest_framework_simplejwt.authentication.JWTAuthentication",
     "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
     "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username for admin
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -130,8 +134,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-ALLOWED_HOSTS = ["*"]
-# CSRF_COOKIE_SECURE = False
+ALLOWED_HOSTS = ["https://www.geppetaboard.com", "127.0.0.1", "localhost"]
 AUTH_USER_MODEL = "django_server.User"
 
 SIMPLE_JWT = {
@@ -193,12 +196,15 @@ openai.api_key = os.environ.get("OPENAI_API_KEY")
 CORS_ALLOWED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",
     "http://chatgpt-forum-fe.vercel.app",
+    "https://www.geppetaboard.com",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",
     "http://chatgpt-forum-fe.vercel.app",
     "https://kirillras.net",
+    "https://www.geppetaboard.com",
 ]
+SITE_ID = 1
 try:
     from .local_settings import *  # noqa: F401, E402, F403
 except ImportError:

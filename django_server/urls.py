@@ -39,4 +39,5 @@ urlpatterns = [
     path("token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
     path("comments/tree", CommentTree.as_view(), name="comments_tree"),
     path("", include(router.urls)),
+    path("accounts/", include("allauth.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

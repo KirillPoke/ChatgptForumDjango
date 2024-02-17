@@ -9,7 +9,7 @@ from django_server.models import User
 
 def registrate_user(user_data):
     try:
-        new_user = User.objects.create(email=user_data["email"])
+        new_user = User.objects.create(username=user_data["username"])
     except Exception as e:
         logging.error(f"Failed to register user, error: {e}")
         raise e
@@ -24,7 +24,7 @@ class GoogleAuthBackend(BaseBackend):
                     token, Request(), GOOGLE_CLIENT_ID, clock_skew_in_seconds=2
                 )
                 try:
-                    user = User.objects.get(email=user_data["email"])
+                    user = User.objects.get(username=user_data["email"])
                 except User.DoesNotExist:
                     user = registrate_user(user_data)
                 return user

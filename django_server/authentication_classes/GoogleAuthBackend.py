@@ -9,7 +9,7 @@ from django_server.models import User
 
 def registrate_user(user_data):
     try:
-        new_user = User.objects.create(username=user_data["username"])
+        new_user = User.objects.create(username=user_data["email"])
     except Exception as e:
         logging.error(f"Failed to register user, error: {e}")
         raise e

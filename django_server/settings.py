@@ -32,6 +32,10 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "django_recaptcha",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
     "django.contrib.staticfiles",
@@ -85,18 +89,22 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
-        # "django.contrib.auth.backends.ModelBackend",
+        "django.contrib.auth.backends.ModelBackend",
         # This is the default that allows us to log in via username for admin
     ],
 }
-
+REST_AUTH = {
+    "JWT_AUTH_REFRESH_COOKIE": "auth_refresh",
+    "USE_JWT": True,
+    "JWT_AUTH_RETURN_EXPIRATION": True,
+    "USER_DETAILS_SERIALIZER": "django_server.subserializers.user.UserSerializer",
+}
 AUTHENTICATION_BACKENDS = [
     "rest_framework_simplejwt.authentication.JWTAuthentication",
     "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
     "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username for admin
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -138,8 +146,9 @@ ALLOWED_HOSTS = ["https://www.geppetaboard.com", "127.0.0.1", "localhost"]
 AUTH_USER_MODEL = "django_server.User"
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=3),
+    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=10),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "ROTATE_REFRESH_TOKENS": False,
     "LEEWAY": 60,
 }
@@ -177,8 +186,7 @@ JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 JWT_ALGORITHM = "HS256"
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -190,7 +198,7 @@ DATABASES = {
     }
 }
 CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "test3")
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 CORS_ALLOWED_ORIGINS = [
@@ -205,6 +213,13 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.geppetaboard.com",
 ]
 SITE_ID = 1
+
+# Allauth settings
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 try:
     from .local_settings import *  # noqa: F401, E402, F403
 except ImportError:

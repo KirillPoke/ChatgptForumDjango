@@ -221,6 +221,7 @@ SITE_ID = 1
 ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+DEBUG = True
 try:
     from .local_settings import *  # noqa: F401, E402, F403
 except ImportError:

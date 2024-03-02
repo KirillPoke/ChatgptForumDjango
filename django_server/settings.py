@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "django_server",
     "rest_framework",
     "rest_framework.authtoken",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.facebook",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [
@@ -146,7 +148,7 @@ ALLOWED_HOSTS = ["https://www.geppetaboard.com", "127.0.0.1", "localhost"]
 AUTH_USER_MODEL = "django_server.User"
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(seconds=10),
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "ROTATE_REFRESH_TOKENS": False,

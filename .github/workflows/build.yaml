@@ -41,13 +41,13 @@ jobs:
         id: run-script
         run: python infrastructure/add_env_variables_to_task_definitions.py
 
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: kr651/gpt-forum:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      #      - name: Build and push
+      #        uses: docker/build-push-action@v5
+      #        with:
+      #          push: true
+      #          tags: kr651/gpt-forum:latest
+      #          cache-from: type=gha
+      #          cache-to: type=gha,mode=max
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -63,4 +63,4 @@ jobs:
           network-configuration: infrastructure/network-configuration.json
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
-          wait-for-service-stability: true
+          wait-for-service-stability: false

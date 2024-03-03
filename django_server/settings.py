@@ -143,7 +143,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-ALLOWED_HOSTS = ["https://www.geppetaboard.com", "127.0.0.1", "localhost"]
+# ALLOWED_HOSTS = ["https://www.geppetaboard.com", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["*"]
 AUTH_USER_MODEL = "django_server.User"
 
 SIMPLE_JWT = {

@@ -207,6 +207,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",
     "http://chatgpt-forum-fe.vercel.app",
     "https://www.geppetaboard.com",
+    "https://kirillras.net",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",

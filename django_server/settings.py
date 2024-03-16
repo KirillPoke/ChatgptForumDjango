@@ -215,6 +215,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://kirillras.net",
     "https://www.geppetaboard.com",
 ]
+CORS_ALLOW_CREDENTIALS = True
 # ALLOWED_HOSTS = ["https://www.geppetaboard.com", "127.0.0.1", "localhost"]
 ALLOWED_HOSTS = ["*"]
 SITE_ID = 1

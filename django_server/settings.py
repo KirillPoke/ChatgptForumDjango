@@ -143,8 +143,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-# ALLOWED_HOSTS = ["https://www.geppetaboard.com", "127.0.0.1", "localhost"]
-ALLOWED_HOSTS = ["*"]
+
 AUTH_USER_MODEL = "django_server.User"
 
 SIMPLE_JWT = {
@@ -203,12 +202,12 @@ CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"
 SESSION_COOKIE_SECURE = True
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "test3")
 openai.api_key = os.environ.get("OPENAI_API_KEY")
-CORS_ALLOWED_ORIGINS = [
-    "https://chatgpt-forum-fe.vercel.app",
-    "http://chatgpt-forum-fe.vercel.app",
-    "https://www.geppetaboard.com",
-    "https://kirillras.net",
-]
+# CORS_ALLOWED_ORIGINS = [
+#     "https://chatgpt-forum-fe.vercel.app",
+#     "http://chatgpt-forum-fe.vercel.app",
+#     "https://www.geppetaboard.com",
+#     "https://kirillras.net",
+# ]
 CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",
@@ -216,6 +215,8 @@ CSRF_TRUSTED_ORIGINS = [
     "https://kirillras.net",
     "https://www.geppetaboard.com",
 ]
+# ALLOWED_HOSTS = ["https://www.geppetaboard.com", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["*"]
 SITE_ID = 1
 
 # Allauth settings

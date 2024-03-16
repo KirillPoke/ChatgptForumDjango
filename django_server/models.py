@@ -12,6 +12,7 @@ from django.db.models import (
     TextField,
     BooleanField,
     EmailField,
+    ManyToManyField,
 )
 from random_username.generate import generate_username
 from tree_queries.models import TreeNode
@@ -19,27 +20,6 @@ from tree_queries.models import TreeNode
 
 class GoogleUserManager(UserManager):
     pass
-
-
-# def create_superuser(
-#     self, username=None, email=None, password=None, **extra_fields
-# ):
-#     extra_fields.setdefault("is_superuser", True)
-#     return self._create_user(email, email, password, **extra_fields)
-#
-# def _create_user(self, username, email, password, **extra_fields):
-#     if not username:
-#         raise ValueError("The given username must be set")
-#     email = self.normalize_email(email)
-#     user = User(email=email, **extra_fields)
-#     user.password = make_password(password)
-#     user.save(using=self._db)
-#     return user
-
-# def create_user(self, username, email=None, password=None, **extra_fields):
-#     extra_fields.setdefault("is_superuser", False)
-#     del extra_fields["is_staff"]
-#     return self._create_user(email, email, password, **extra_fields)
 
 
 def get_default_user_display_name():
@@ -85,7 +65,7 @@ class Post(Model):
     title = CharField(max_length=255)
     created_at = DateTimeField(auto_now_add=True)
     chat_role = TextField(max_length=65535, default="You are a helpful assistant.")
-    # tags = ManyToManyField(Tag, blank=True)
+    tags = ManyToManyField(Tag, blank=True)
     prompt_mode = CharField(max_length=255, default=AUTHOR, choices=PROMPT_MODES)
 
     def __str__(self):

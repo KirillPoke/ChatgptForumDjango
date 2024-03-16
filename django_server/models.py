@@ -12,7 +12,6 @@ from django.db.models import (
     TextField,
     BooleanField,
     EmailField,
-    ManyToManyField,
 )
 from random_username.generate import generate_username
 from tree_queries.models import TreeNode
@@ -86,7 +85,7 @@ class Post(Model):
     title = CharField(max_length=255)
     created_at = DateTimeField(auto_now_add=True)
     chat_role = TextField(max_length=65535, default="You are a helpful assistant.")
-    tags = ManyToManyField(Tag, blank=True)
+    # tags = ManyToManyField(Tag, blank=True)
     prompt_mode = CharField(max_length=255, default=AUTHOR, choices=PROMPT_MODES)
 
     def __str__(self):

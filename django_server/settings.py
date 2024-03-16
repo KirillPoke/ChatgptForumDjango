@@ -202,13 +202,13 @@ CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"
 SESSION_COOKIE_SECURE = True
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "test3")
 openai.api_key = os.environ.get("OPENAI_API_KEY")
-# CORS_ALLOWED_ORIGINS = [
-#     "https://chatgpt-forum-fe.vercel.app",
-#     "http://chatgpt-forum-fe.vercel.app",
-#     "https://www.geppetaboard.com",
-#     "https://kirillras.net",
-# ]
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    "https://chatgpt-forum-fe.vercel.app",
+    "http://chatgpt-forum-fe.vercel.app",
+    "https://www.geppetaboard.com",
+    "https://kirillras.net",
+]
+# CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",
     "http://chatgpt-forum-fe.vercel.app",

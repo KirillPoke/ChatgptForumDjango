@@ -26,5 +26,5 @@ class FacebookLogin(SocialLoginView):
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
-    callback_url = "https://www.geppetaboard.com/"
+    callback_url = "https://www.geppetaboard.com/accounts/google/login/callback/"
     client_class = OAuth2Client

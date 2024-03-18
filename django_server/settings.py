@@ -227,6 +227,8 @@ ACCOUNT_AUTHENTICATION_METHOD = "username"
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
 DEBUG = True
+# Testing things for dj-rest-auth
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
 try:
     from .local_settings import *  # noqa: F401, E402, F403
 except ImportError:

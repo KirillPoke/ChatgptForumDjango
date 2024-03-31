@@ -5,7 +5,12 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf.urls.static import static
 
 from django_server import settings
-from django_server.subviews.auth import Login, FacebookLogin, GoogleLogin
+from django_server.subviews.auth import (
+    Login,
+    FacebookLogin,
+    GoogleLogin,
+    UserRedirectView,
+)
 from django_server.subviews.score import CommentScoreViewSet, PostScoreViewSet
 from django_server.subviews.posts import PostViewSet
 from django_server.subviews.comments import CommentViewSet, CommentTree
@@ -27,4 +32,6 @@ urlpatterns = [
     path("auth/registration/", include("dj_rest_auth.registration.urls")),
     path("auth/facebook/", FacebookLogin.as_view(), name="fb_login"),
     path("auth/google/", GoogleLogin.as_view(), name="google_login"),
+    path("auth/facebook/", FacebookLogin.as_view(), name="fb_login"),
+    path("~redirect/", view=UserRedirectView.as_view(), name="redirect"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

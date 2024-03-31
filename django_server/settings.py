@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 import os
 import openai
+from dotenv import find_dotenv, load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -67,7 +68,7 @@ STORAGES = {
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "django_server", "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -220,20 +221,15 @@ CORS_ALLOW_CREDENTIALS = True
 ALLOWED_HOSTS = ["*"]
 SITE_ID = 1
 
-# Allauth settings
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_UNIQUE_EMAIL = True
-# ACCOUNT_AUTHENTICATION_METHOD = "username"
-# ACCOUNT_USERNAME_REQUIRED = True
-# ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
-DEBUG = True
-# Testing things for dj-rest-auth
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
+
+# Load Auth0 application settings into memory
+AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
+AUTH0_CLIENT_ID = os.environ.get("AUTH0_CLIENT_ID")
+AUTH0_CLIENT_SECRET = os.environ.get("AUTH0_CLIENT_SECRET")
+
 try:
     from .local_settings import *  # noqa: F401, E402, F403
 except ImportError:

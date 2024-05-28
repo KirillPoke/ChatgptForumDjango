@@ -7,11 +7,6 @@ from django.conf.urls.static import static
 from django_server import settings
 from django_server.subviews.auth import (
     Login,
-    FacebookLogin,
-    GoogleLogin,
-    login,
-    logout,
-    callback,
 )
 from django_server.subviews.score import CommentScoreViewSet, PostScoreViewSet
 from django_server.subviews.posts import PostViewSet
@@ -29,13 +24,6 @@ urlpatterns = [
     path("token/", Login.as_view(), name="token_obtain_pair"),
     path("token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
     path("comments/tree", CommentTree.as_view(), name="comments_tree"),
-    path("login", login, name="login"),
-    path("logout", logout, name="logout"),
-    path("callback", callback, name="callback"),
     path("", include(router.urls)),
-    path("auth/", include("dj_rest_auth.urls")),
-    path("auth/registration/", include("dj_rest_auth.registration.urls")),
-    path("auth/facebook/", FacebookLogin.as_view(), name="fb_login"),
-    path("auth/google/", GoogleLogin.as_view(), name="google_login"),
-    path("auth/facebook/", FacebookLogin.as_view(), name="fb_login"),
+    path("", include("social_django.urls", namespace="social")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

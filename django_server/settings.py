@@ -33,17 +33,11 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-    "dj_rest_auth",
-    "dj_rest_auth.registration",
     "django.contrib.staticfiles",
     "django_server",
     "rest_framework",
     "rest_framework.authtoken",
-    "allauth.socialaccount.providers.google",
-    "allauth.socialaccount.providers.facebook",
+    "social_django",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [
@@ -56,7 +50,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "django_server.urls"
@@ -102,10 +95,11 @@ REST_AUTH = {
     "USER_DETAILS_SERIALIZER": "django_server.subserializers.user.UserSerializer",
 }
 AUTHENTICATION_BACKENDS = [
-    "rest_framework_simplejwt.authentication.JWTAuthentication",
-    "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
+    # "rest_framework_simplejwt.authentication.JWTAuthentication",
+    # "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
+    "social_core.backends.auth0.Auth0OAuth2",
     "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username for admin
-    "allauth.account.auth_backends.AuthenticationBackend",
+    # "allauth.account.auth_backends.AuthenticationBackend",
 ]
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -225,11 +219,17 @@ ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
 
-# Load Auth0 application settings into memory
-AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
-AUTH0_CLIENT_ID = os.environ.get("AUTH0_CLIENT_ID")
-AUTH0_CLIENT_SECRET = os.environ.get("AUTH0_CLIENT_SECRET")
-
+# social auth
+SOCIAL_AUTH_TRAILING_SLASH = False
+SOCIAL_AUTH_AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
+SOCIAL_AUTH_AUTH0_CLIENT_ID = os.environ.get("AUTH0_CLIENT_ID")
+SOCIAL_AUTH_AUTH0_CLIENT_SECRET = os.environ.get("AUTH0_CLIENT_SECRET")
+SOCIAL_AUTH_AUTH0_SCOPE = ["openid", "profile", "email"]
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_USER_MODEL = "django_server.User"
+LOGIN_URL = "login/auth0"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 try:
     from .local_settings import *  # noqa: F401, E402, F403
 except ImportError:

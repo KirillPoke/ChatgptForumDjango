@@ -9,7 +9,6 @@ from django_server.subviews.auth import (
     Login,
     FacebookLogin,
     GoogleLogin,
-    UserRedirectView,
 )
 from django_server.subviews.score import CommentScoreViewSet, PostScoreViewSet
 from django_server.subviews.posts import PostViewSet
@@ -33,5 +32,4 @@ urlpatterns = [
     path("auth/facebook/", FacebookLogin.as_view(), name="fb_login"),
     path("auth/google/", GoogleLogin.as_view(), name="google_login"),
     path("auth/facebook/", FacebookLogin.as_view(), name="fb_login"),
-    path("~redirect/", view=UserRedirectView.as_view(), name="redirect"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

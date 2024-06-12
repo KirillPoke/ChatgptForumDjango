@@ -2,7 +2,7 @@ import json
 import os
 
 if __name__ == "__main__":
-    google_env_vars = ["JWT_SECRET_KEY", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
+    google_env_vars = ["GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET"]
     db_env_vars = ["RDS_DB_USER", "RDS_DB_PASSWORD", "DB_HOST", "SQS_ACCESS_SECRET"]
     misc_env_vars = ["OPENAI_API_KEY", "DJANGO_SECRET_KEY"]
 

@@ -91,9 +91,9 @@ REST_FRAMEWORK = {
 AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
 AUTH0_AUDIENCE = os.getenv("AUTH0_AUDIENCE")
 AUTH0_ISSUER = f"https://{os.getenv('AUTH0_DOMAIN')}/"
+_USERNAME_HANDLER = "django_server.authentication_classes.auth0authorization.jwt_get_username_from_payload_handler"
 JWT_AUTH = {
-    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "django_server.authentication_classes.auth0authorization"
-    ".jwt_get_username_from_payload_handler",
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": _USERNAME_HANDLER,
     "JWT_DECODE_HANDLER": "django_server.authentication_classes.auth0authorization.jwt_decode_token",
     "JWT_ALGORITHM": "RS256",
     "JWT_AUDIENCE": AUTH0_AUDIENCE,
@@ -173,8 +173,6 @@ Q_CLUSTER = {
     },
 }
 
-JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
-JWT_ALGORITHM = "HS256"
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
 

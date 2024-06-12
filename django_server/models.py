@@ -18,10 +18,6 @@ from random_username.generate import generate_username
 from tree_queries.models import TreeNode
 
 
-class GoogleUserManager(UserManager):
-    pass
-
-
 def get_default_user_display_name():
     return generate_username()[0]
 

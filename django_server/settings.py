@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from datetime import timedelta
 import os
 import openai
 from dotenv import find_dotenv, load_dotenv
@@ -85,17 +84,9 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
         "django.contrib.auth.backends.ModelBackend",
         # This is the default that allows us to log in via username for admin
     ],
-}
-REST_AUTH = {
-    "JWT_AUTH_REFRESH_COOKIE": "auth_refresh",
-    "USE_JWT": True,
-    "JWT_AUTH_RETURN_EXPIRATION": True,
-    "USER_DETAILS_SERIALIZER": "django_server.subserializers.user.UserSerializer",
 }
 AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
 AUTH0_AUDIENCE = os.getenv("AUTH0_AUDIENCE")
@@ -152,14 +143,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "django_server.User"
-
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "ROTATE_REFRESH_TOKENS": False,
-    "LEEWAY": 60,
-}
 
 LOGGING = {
     "version": 1,

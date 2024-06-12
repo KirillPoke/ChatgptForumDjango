@@ -805,30 +805,6 @@ django = ">=3.0"
 pytz = "*"
 
 [[package]]
-name = "djangorestframework-simplejwt"
-version = "5.3.1"
-description = "A minimal JSON Web Token authentication plugin for Django REST Framework"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "djangorestframework_simplejwt-5.3.1-py3-none-any.whl", hash = "sha256:381bc966aa46913905629d472cd72ad45faa265509764e20ffd440164c88d220"},
-    {file = "djangorestframework_simplejwt-5.3.1.tar.gz", hash = "sha256:6c4bd37537440bc439564ebf7d6085e74c5411485197073f508ebdfa34bc9fae"},
-]
-
-[package.dependencies]
-django = ">=3.2"
-djangorestframework = ">=3.12"
-pyjwt = ">=1.7.1,<3"
-
-[package.extras]
-crypto = ["cryptography (>=3.3.1)"]
-dev = ["Sphinx (>=1.6.5,<2)", "cryptography", "flake8", "freezegun", "ipython", "isort", "pep8", "pytest", "pytest-cov", "pytest-django", "pytest-watch", "pytest-xdist", "python-jose (==3.3.0)", "sphinx_rtd_theme (>=0.1.9)", "tox", "twine", "wheel"]
-doc = ["Sphinx (>=1.6.5,<2)", "sphinx_rtd_theme (>=0.1.9)"]
-lint = ["flake8", "isort", "pep8"]
-python-jose = ["python-jose (==3.3.0)"]
-test = ["cryptography", "freezegun", "pytest", "pytest-cov", "pytest-django", "pytest-xdist", "tox"]
-
-[[package]]
 name = "drf-jwt"
 version = "1.19.2"
 description = "JSON Web Token based authentication for Django REST framework"
@@ -2753,4 +2729,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.10, <3.12"
-content-hash = "8f8ed7dafe41e46527da5260786915d0dcc2a88d5efe7045a0e67083cd29ef7f"
+content-hash = "d0d54f1889190f0a823f81e30622fe2c8cfb7256d3a0761783ffb7d7dc6f0c68"

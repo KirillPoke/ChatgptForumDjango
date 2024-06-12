@@ -1,13 +1,9 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework_simplejwt.views import TokenRefreshView
 from django.conf.urls.static import static
 
 from django_server import settings
-from django_server.subviews.auth import (
-    Login,
-)
 from django_server.subviews.score import CommentScoreViewSet, PostScoreViewSet
 from django_server.subviews.posts import PostViewSet
 from django_server.subviews.comments import CommentViewSet, CommentTree
@@ -21,8 +17,6 @@ router.register("post_score", PostScoreViewSet, basename="PostScore")
 router.register("users", UserViewSet)
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("token/", Login.as_view(), name="token_obtain_pair"),
-    path("token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
     path("comments/tree", CommentTree.as_view(), name="comments_tree"),
     path("", include(router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -16,6 +16,9 @@ import os
 import openai
 from dotenv import find_dotenv, load_dotenv
 
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -37,7 +40,7 @@ INSTALLED_APPS = [
     "django_server",
     "rest_framework",
     "rest_framework.authtoken",
-    "social_django",
+    # "social_django",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [
@@ -48,6 +51,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.auth.middleware.RemoteUserMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -73,8 +77,8 @@ TEMPLATES = [
         },
     },
 ]
-WSGI_APPLICATION = "django_server.wsgi.application"
 
+WSGI_APPLICATION = "django_server.wsgi.application"
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -82,6 +86,7 @@ REST_FRAMEWORK = {
         "django_server.authentication_classes.permissions.AllowBasedOnMethod"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
         "django.contrib.auth.backends.ModelBackend",
@@ -94,12 +99,21 @@ REST_AUTH = {
     "JWT_AUTH_RETURN_EXPIRATION": True,
     "USER_DETAILS_SERIALIZER": "django_server.subserializers.user.UserSerializer",
 }
+AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
+AUTH0_AUDIENCE = os.getenv("AUTH0_AUDIENCE")
+AUTH0_ISSUER = f"https://{os.getenv('AUTH0_DOMAIN')}"
+JWT_AUTH = {
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": "django_server.authentication_classes.auth0authorization"
+    ".jwt_get_username_from_payload_handler",
+    "JWT_DECODE_HANDLER": "django_server.authentication_classes.auth0authorization.jwt_decode_token",
+    "JWT_ALGORITHM": "RS256",
+    "JWT_AUDIENCE": AUTH0_AUDIENCE,
+    "JWT_ISSUER": AUTH0_ISSUER,
+    "JWT_AUTH_HEADER_PREFIX": "Bearer",
+}
 AUTHENTICATION_BACKENDS = [
-    # "rest_framework_simplejwt.authentication.JWTAuthentication",
-    # "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
-    "social_core.backends.auth0.Auth0OAuth2",
+    "django.contrib.auth.backends.RemoteUserBackend",
     "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username for admin
-    # "allauth.account.auth_backends.AuthenticationBackend",
 ]
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -214,10 +228,6 @@ CORS_ALLOW_CREDENTIALS = True
 # ALLOWED_HOSTS = ["https://www.geppetaboard.com", "127.0.0.1", "localhost"]
 ALLOWED_HOSTS = ["*"]
 SITE_ID = 1
-
-ENV_FILE = find_dotenv()
-if ENV_FILE:
-    load_dotenv(ENV_FILE)
 
 # social auth
 SOCIAL_AUTH_TRAILING_SLASH = False

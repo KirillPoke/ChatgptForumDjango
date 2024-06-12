@@ -215,7 +215,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://www.geppetaboard.com",
     "https://kirillras.net",
 ]
-# CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",
     "http://chatgpt-forum-fe.vercel.app",

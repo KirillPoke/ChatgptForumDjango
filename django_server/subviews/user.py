@@ -1,4 +1,4 @@
-from rest_framework.authtoken.admin import User
+from django_server.models import User
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import permission_classes
 

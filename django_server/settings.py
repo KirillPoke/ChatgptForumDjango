@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_server",
     "rest_framework",
-    "rest_framework.authtoken",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [

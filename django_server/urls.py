@@ -25,5 +25,4 @@ urlpatterns = [
     path("token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
     path("comments/tree", CommentTree.as_view(), name="comments_tree"),
     path("", include(router.urls)),
-    # path("", include("social_django.urls", namespace="social")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -15,8 +15,6 @@ from django.db.models import (
     ManyToManyField,
 )
 from random_username.generate import generate_username
-
-# from social_core.backends.auth0 import Auth0OAuth2
 from tree_queries.models import TreeNode
 
 

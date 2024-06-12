@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "django_server",
     "rest_framework",
     "rest_framework.authtoken",
-    # "social_django",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [
@@ -209,8 +208,8 @@ DATABASES = {
 }
 CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
 SESSION_COOKIE_SECURE = True
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "test3")
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "test3")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 CORS_ALLOWED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",
     "http://chatgpt-forum-fe.vercel.app",
@@ -229,17 +228,6 @@ CORS_ALLOW_CREDENTIALS = True
 ALLOWED_HOSTS = ["*"]
 SITE_ID = 1
 
-# social auth
-SOCIAL_AUTH_TRAILING_SLASH = False
-SOCIAL_AUTH_AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
-SOCIAL_AUTH_AUTH0_CLIENT_ID = os.environ.get("AUTH0_CLIENT_ID")
-SOCIAL_AUTH_AUTH0_CLIENT_SECRET = os.environ.get("AUTH0_CLIENT_SECRET")
-SOCIAL_AUTH_AUTH0_SCOPE = ["openid", "profile", "email"]
-SOCIAL_AUTH_JSONFIELD_ENABLED = True
-SOCIAL_AUTH_USER_MODEL = "django_server.User"
-LOGIN_URL = "login/auth0"
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
 try:
     from .local_settings import *  # noqa: F401, E402, F403
 except ImportError:

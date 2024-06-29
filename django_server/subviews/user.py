@@ -11,3 +11,7 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     lookup_field = "name"
+
+    def get_queryset(self):
+        queryset = self.queryset.filter(id=self.request.user.id)
+        return queryset

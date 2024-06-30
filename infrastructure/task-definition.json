@@ -10,6 +10,13 @@
           "hostPort": 80,
           "protocol": "tcp",
           "appProtocol": "http2"
+        },
+        {
+          "name": "django-port2",
+          "containerPort": 80,
+          "hostPort": 443,
+          "protocol": "tcp",
+          "appProtocol": "http2"
         }
       ],
       "essential": true,

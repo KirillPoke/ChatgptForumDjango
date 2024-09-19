@@ -716,6 +716,20 @@ sentry = ["django-q-sentry (>=0.1)"]
 testing = ["blessed (>=1.19.1,<2.0.0)", "boto3 (>=1.24.92,<2.0.0)", "croniter (>=2.0.1,<3.0.0)", "django-redis (>=5.2.0,<6.0.0)", "hiredis (>=2.0.0,<3.0.0)", "iron-mq (>=0.9,<0.10)", "psutil (>=5.9.2,<6.0.0)", "pymongo (>=4.2.0,<5.0.0)", "redis (>=4.3.4,<5.0.0)", "setproctitle (>=1.3.2,<2.0.0)"]
 
 [[package]]
+name = "django-request-logging"
+version = "0.7.5"
+description = "Django middleware that logs http request body."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-request-logging-0.7.5.tar.gz", hash = "sha256:94934d77c2d0fd76fdb9879b874368aa7d55672f0c7e1f59dd39b991c3e123b4"},
+    {file = "django_request_logging-0.7.5-py2.py3-none-any.whl", hash = "sha256:4d9e520842303aaf654c6ffd39831b04513ea343574f8579a59ada46ffb95fb6"},
+]
+
+[package.dependencies]
+Django = "*"
+
+[[package]]
 name = "django-tree-queries"
 version = "0.15.0"
 description = "Tree queries with explicit opt-in, without configurability"
@@ -2443,4 +2457,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.10, <3.12"
-content-hash = "1f9a3b259eb088f00fe6e1dbde6034a86b6b2d8590484ae8a1147cf51eac82bc"
+content-hash = "389fa9af8c48f071829c29bbf9c4e400bd32c58a84c6de50b19bf69ce5dc3d04"

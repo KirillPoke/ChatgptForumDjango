@@ -51,6 +51,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.RemoteUserMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "request_logging.middleware.LoggingMiddleware",
 ]
 
 ROOT_URLCONF = "django_server.urls"
@@ -144,6 +145,18 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "django_server.User"
 
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "console": {
+#             "class": "logging.StreamHandler",
+#         },
+#     },
+#     "loggers": {
+#         "django": {"handlers": ["console"], "level": "INFO"},
+#     },
+# }
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -153,10 +166,13 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django": {"handlers": ["console"], "level": "INFO"},
+        "django.request": {
+            "handlers": ["console"],
+            "level": "DEBUG",  # change debug level as appropiate
+            "propagate": False,
+        },
     },
 }
-
 # settings.py example
 Q_CLUSTER = {
     "name": "DjangoQ2",

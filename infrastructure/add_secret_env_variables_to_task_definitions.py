@@ -6,7 +6,7 @@ if __name__ == "__main__":
     misc_env_vars = ["OPENAI_API_KEY", "DJANGO_SECRET_KEY"]
     auth0_env_vars = ["AUTH0_CLIENT_ID", "AUTH0_CLIENT_SECRET"]
     environment_json = []
-    for env_var in [*db_env_vars, *misc_env_vars]:
+    for env_var in [*auth0_env_vars, *db_env_vars, *misc_env_vars]:
         env_dict = {"name": env_var, "value": os.environ.get(env_var)}
         environment_json.append(env_dict)
     with open("infrastructure/task-definition.json") as task_definition_file:

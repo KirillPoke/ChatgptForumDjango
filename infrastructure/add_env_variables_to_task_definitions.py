@@ -4,7 +4,7 @@ import os
 if __name__ == "__main__":
     db_env_vars = ["RDS_DB_USER", "RDS_DB_PASSWORD", "DB_HOST", "SQS_ACCESS_SECRET"]
     misc_env_vars = ["OPENAI_API_KEY", "DJANGO_SECRET_KEY"]
-    auth0_env_vars = ["AUTH0_CLIENT_ID", "AUTH0_CLIENT_SECRET"]
+    auth0_env_vars = ["AUTH0_DOMAIN", "AUTH0_CLIENT_ID", "AUTH0_CLIENT_SECRET"]
     environment_json = []
     for env_var in [*auth0_env_vars, *db_env_vars, *misc_env_vars]:
         env_dict = {"name": env_var, "value": os.environ.get(env_var)}

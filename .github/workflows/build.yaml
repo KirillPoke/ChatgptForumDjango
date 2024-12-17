@@ -38,7 +38,7 @@ jobs:
 
       - name: Add environment variables to task definition
         id: run-script
-        run: python infrastructure/add_secret_env_variables_to_task_definitions.py
+        run: python infrastructure/add_env_variables_to_task_definitions.py
 
       - name: Build and push
         uses: docker/build-push-action@v5

@@ -11,6 +11,8 @@ env:
   ECS_TASK_DEFINITION: infrastructure/task-definition.json # set this to the path to your Amazon ECS task definition
   CONTAINER_NAME: server          # set this to the name of the container in the
   DB_HOST: database-1.cedgctrvkeux.eu-west-1.rds.amazonaws.com
+  AUTH0_DOMAIN: dev-6p0cyt4qk5xtaejw.us.auth0.com
+  AUTH0_AUDIENCE: CSHDV0vdWMlkyOWgKba5E12djaaiet4v
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,7 +39,7 @@ jobs:
 
       - name: Add environment variables to task definition
         id: run-script
-        run: python infrastructure/add_env_variables_to_task_definitions.py
+        run: python infrastructure/add_secret_env_variables_to_task_definitions.py
 
       - name: Build and push
         uses: docker/build-push-action@v5

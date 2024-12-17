@@ -12,7 +12,6 @@ env:
   CONTAINER_NAME: server          # set this to the name of the container in the
   DB_HOST: database-1.cedgctrvkeux.eu-west-1.rds.amazonaws.com
   AUTH0_DOMAIN: dev-6p0cyt4qk5xtaejw.us.auth0.com
-  AUTH0_AUDIENCE: CSHDV0vdWMlkyOWgKba5E12djaaiet4v
 jobs:
   build:
     runs-on: ubuntu-latest

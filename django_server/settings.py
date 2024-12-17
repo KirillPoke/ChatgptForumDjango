@@ -90,7 +90,7 @@ REST_FRAMEWORK = {
     ],
 }
 AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
-AUTH0_AUDIENCE = os.getenv("AUTH0_AUDIENCE")
+AUTH0_AUDIENCE = f"https://{AUTH0_DOMAIN}/api/v2/"
 AUTH0_ISSUER = f"https://{os.getenv('AUTH0_DOMAIN')}/"
 _USERNAME_HANDLER = "django_server.authentication_classes.auth0authorization.jwt_get_username_from_payload_handler"
 JWT_AUTH = {

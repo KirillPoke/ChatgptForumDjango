@@ -10,7 +10,10 @@ from django_server.subserializers.score import (
     PostScoreSerializer,
 )
 
+from drf_viewset_profiler import line_profiler_viewset
 
+
+@line_profiler_viewset
 class ScoreViewSet(ModelViewSet):
     def get_queryset(self):
         query_params = self.request.GET.copy()

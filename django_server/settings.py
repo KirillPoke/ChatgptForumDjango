@@ -56,7 +56,7 @@ MIDDLEWARE = [
     "silk.middleware.SilkyMiddleware",
     "pyinstrument.middleware.ProfilerMiddleware",
 ]
-
+SILKY_PYTHON_PROFILER = True
 ROOT_URLCONF = "django_server.urls"
 STORAGES = {
     "staticfiles": {

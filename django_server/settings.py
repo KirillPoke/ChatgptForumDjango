@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_server",
     "rest_framework",
+    "silk",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "request_logging.middleware.LoggingMiddleware",
+    "silk.middleware.SilkyMiddleware",
     "pyinstrument.middleware.ProfilerMiddleware",
 ]
 

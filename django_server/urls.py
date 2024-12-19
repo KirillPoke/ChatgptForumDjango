@@ -20,3 +20,4 @@ urlpatterns = [
     path("comments/tree", CommentTree.as_view(), name="comments_tree"),
     path("", include(router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += [path("silk/", include("silk.urls", namespace="silk"))]

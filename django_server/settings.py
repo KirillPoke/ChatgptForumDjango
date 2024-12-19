@@ -52,13 +52,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "request_logging.middleware.LoggingMiddleware",
-    "drf_viewset_profiler.middleware.LineProfilerViewSetMiddleware",
 ]
-DRF_VIEWSET_PROFILER = {
-    "DEFAULT_OUTPUT_GENERATION_TYPE": "drf_viewset_profiler.output.FileOutput",
-    "DEFAULT_OUTPUT_LOCATION": "",
-    "ENABLE_SERIALIZER_PROFILER": True,
-}
+
 ROOT_URLCONF = "django_server.urls"
 STORAGES = {
     "staticfiles": {

@@ -26,7 +26,6 @@ authlib = "^1.3.0"
 requests = "^2.31.0"
 drf-jwt = "^1.19.2"
 django-request-logging = "^0.7.5"
-drf-viewset-profiler = "^0.4.0"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "3.3.3"

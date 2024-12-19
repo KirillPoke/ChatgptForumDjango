@@ -15,10 +15,7 @@ from django_server.subserializers.comments import (
     CommentSerializerPost,
 )
 
-from drf_viewset_profiler import line_profiler_viewset
 
-
-@line_profiler_viewset
 class CommentViewSet(ModelViewSet):
     permission_classes = [AllowBasedOnMethod | AllowCommentSubmitToPostAuthor]
     queryset = Comment.objects.all().order_by("id")

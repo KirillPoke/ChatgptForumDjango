@@ -4,10 +4,7 @@ from django_server.models import Post
 from django_server.paginators.default import DefaultPagination
 from django_server.subserializers.posts import PostSerializer
 
-from drf_viewset_profiler import line_profiler_viewset
 
-
-@line_profiler_viewset
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     pagination_class = DefaultPagination

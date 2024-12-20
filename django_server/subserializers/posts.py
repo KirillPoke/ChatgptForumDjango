@@ -1,4 +1,4 @@
-from rest_framework.fields import ReadOnlyField, SerializerMethodField, CharField
+from rest_framework.fields import ReadOnlyField, CharField
 from rest_framework.serializers import ModelSerializer
 
 from django_server.models import Post
@@ -9,7 +9,7 @@ class PostSerializer(ModelSerializer):
     id = ReadOnlyField()
     created_at = ReadOnlyField()
     author = CharField(source="author.name", read_only=True)
-    total_score = SerializerMethodField("get_total_score", read_only=True)
+    # total_score = SerializerMethodField("get_total_score", read_only=True)
     prompt_mode = CharField(max_length=255)
 
     def create(self, validated_data):
@@ -30,7 +30,7 @@ class PostSerializer(ModelSerializer):
             "author",
             "title",
             "created_at",
-            "total_score",
+            # "total_score",
             "chat_role",
             "prompt_mode",
         ]

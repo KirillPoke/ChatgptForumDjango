@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django_auto_prefetching import AutoPrefetchViewSetMixin
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
@@ -11,14 +12,15 @@ from django_server.subserializers.score import (
 )
 
 
-class ScoreViewSet(ModelViewSet):
+class ScoreViewSet(AutoPrefetchViewSetMixin, ModelViewSet):
     def get_queryset(self):
+        queryset = super(AutoPrefetchViewSetMixin, self).get_queryset()
         query_params = self.request.GET.copy()
         if self.request.user.is_authenticated:
             query_params["user"] = self.request.user.id
         else:
             query_params["user"] = None
-        queryset = PostScoreFilter(data=query_params, queryset=self.queryset).filter()
+        queryset = PostScoreFilter(data=query_params, queryset=queryset).filter()
         return queryset
 
     @action(methods=["delete"], detail=False)

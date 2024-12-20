@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-from datetime import timedelta
 import os
 import openai
+from dotenv import find_dotenv, load_dotenv
 
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,21 +38,25 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_server",
     "rest_framework",
-    "rest_framework.authtoken",
+    "silk",
 ]
 ASGI_APPLICATION = "django_server.asgi.application"
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.auth.middleware.RemoteUserMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "request_logging.middleware.LoggingMiddleware",
+    "silk.middleware.SilkyMiddleware",
+    "pyinstrument.middleware.ProfilerMiddleware",
 ]
-
+SILKY_PYTHON_PROFILER = True
 ROOT_URLCONF = "django_server.urls"
 STORAGES = {
     "staticfiles": {
@@ -59,7 +66,7 @@ STORAGES = {
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "django_server", "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -71,8 +78,8 @@ TEMPLATES = [
         },
     },
 ]
+DEBUG = True
 WSGI_APPLICATION = "django_server.wsgi.application"
-
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -80,19 +87,27 @@ REST_FRAMEWORK = {
         "django_server.authentication_classes.permissions.AllowBasedOnMethod"
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
-        # "django.contrib.auth.backends.ModelBackend",
+        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+        "django.contrib.auth.backends.ModelBackend",
         # This is the default that allows us to log in via username for admin
     ],
 }
-
+AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
+AUTH0_AUDIENCE = f"https://{AUTH0_DOMAIN}/api/v2/"
+AUTH0_ISSUER = f"https://{os.getenv('AUTH0_DOMAIN')}/"
+_USERNAME_HANDLER = "django_server.authentication_classes.auth0authorization.jwt_get_username_from_payload_handler"
+JWT_AUTH = {
+    "JWT_PAYLOAD_GET_USERNAME_HANDLER": _USERNAME_HANDLER,
+    "JWT_DECODE_HANDLER": "django_server.authentication_classes.auth0authorization.jwt_decode_token",
+    "JWT_ALGORITHM": "RS256",
+    "JWT_AUDIENCE": AUTH0_AUDIENCE,
+    "JWT_ISSUER": AUTH0_ISSUER,
+    "JWT_AUTH_HEADER_PREFIX": "Bearer",
+}
 AUTHENTICATION_BACKENDS = [
-    "rest_framework_simplejwt.authentication.JWTAuthentication",
-    "django_server.authentication_classes.GoogleAuthBackend.GoogleAuthBackend",
+    "django.contrib.auth.backends.RemoteUserBackend",
     "django.contrib.auth.backends.ModelBackend",  # This is the default that allows us to log in via username for admin
 ]
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -130,17 +145,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-ALLOWED_HOSTS = ["*"]
-# CSRF_COOKIE_SECURE = False
+
 AUTH_USER_MODEL = "django_server.User"
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=3),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
-    "ROTATE_REFRESH_TOKENS": False,
-    "LEEWAY": 60,
-}
-
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "console": {
+#             "class": "logging.StreamHandler",
+#         },
+#     },
+#     "loggers": {
+#         "django": {"handlers": ["console"], "level": "INFO"},
+#     },
+# }
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -150,10 +169,13 @@ LOGGING = {
         },
     },
     "loggers": {
-        "django": {"handlers": ["console"], "level": "INFO"},
+        "django.request": {
+            "handlers": ["console"],
+            "level": "DEBUG",  # change debug level as appropiate
+            "propagate": False,
+        },
     },
 }
-
 # settings.py example
 Q_CLUSTER = {
     "name": "DjangoQ2",
@@ -170,12 +192,6 @@ Q_CLUSTER = {
     },
 }
 
-JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
-JWT_ALGORITHM = "HS256"
-GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
-GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -187,18 +203,30 @@ DATABASES = {
     }
 }
 CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
-SESSION_COOKIE_SECURE = False
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "test3")
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+SESSION_COOKIE_SECURE = True
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "test3")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 CORS_ALLOWED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",
     "http://chatgpt-forum-fe.vercel.app",
+    "https://www.geppetaboard.com",
+    "https://kirillras.net",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://chatgpt-forum-fe.vercel.app",
     "http://chatgpt-forum-fe.vercel.app",
     "https://kirillras.net",
+    "https://www.geppetaboard.com",
 ]
+CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS = [
+    "kirillras.net",
+    "www.kirillras.net",
+    "localhost",
+    "127.0.0.1",
+]
+SITE_ID = 1
+
 try:
     from .local_settings import *  # noqa: F401, E402, F403
 except ImportError:

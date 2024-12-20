@@ -6,11 +6,11 @@ from django_server.models import Comment, Post, User, CommentScore, PostScore, T
 
 class CustomUserAdmin(UserAdmin):
     # Customize the UserAdmin class as needed
-    list_display = ("email", "is_staff")
+    list_display = ("username", "is_staff")
     list_filter = ("is_staff", "is_superuser", "groups")
-    search_fields = ("username", "email")
+    search_fields = ("username", "username")
     ordering = ("-id",)
-    fieldsets = ((None, {"fields": ("email", "password")}),)
+    fieldsets = ((None, {"fields": ("username", "password")}),)
 
 
 registered_models = [Comment, Post, CommentScore, PostScore, Tag]

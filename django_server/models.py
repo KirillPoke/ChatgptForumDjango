@@ -14,9 +14,9 @@ from django.db.models import (
     EmailField,
     ManyToManyField,
     Sum,
-    F,
+    IntegerField,
 )
-from django.db.models.functions import Coalesce
+from django.db.models.functions import Coalesce, Cast
 from random_username.generate import generate_username
 from tree_queries.models import TreeNode
 
@@ -77,7 +77,7 @@ class Post(Model):
     @property
     def total_score(self):
         score = PostScore.objects.filter(post=self).aggregate(
-            score=Coalesce(Sum(F("upvote") * 2 - 1), 0)  # Converts True/False to 1/-1
+            score=Coalesce(Sum((Cast("upvote", IntegerField()) * 2 - 1)), 0)
         )["score"]
         return score
 

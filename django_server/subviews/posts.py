@@ -18,21 +18,3 @@ class PostViewSet(AutoPrefetchViewSetMixin, ModelViewSet):
             del query_params["page"]
         queryset = queryset.filter(**query_params)
         return queryset
-
-    # TODO: Add caching if needed to speed up homepage
-    # def list(self, request, *args, **kwargs):
-    #     cached_data = cache.get("home_page_posts")
-    #     if cached_data:
-    #         return Response(cached_data)
-    #     else:
-    #         queryset = self.filter_queryset(self.get_queryset())
-    #
-    #         page = self.paginate_queryset(queryset)
-    #         if page is not None:
-    #             serializer = self.get_serializer(page, many=True)
-    #             response = self.get_paginated_response(serializer.data)
-    #             cache.set("home_page_posts", response.data, 60)
-    #             return response
-    #
-    #         serializer = self.get_serializer(queryset, many=True)
-    #         return Response(serializer.data)

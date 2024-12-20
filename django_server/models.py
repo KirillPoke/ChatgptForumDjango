@@ -13,6 +13,10 @@ from django.db.models import (
     BooleanField,
     EmailField,
     ManyToManyField,
+    Sum,
+    Case,
+    When,
+    IntegerField,
 )
 from random_username.generate import generate_username
 from tree_queries.models import TreeNode
@@ -73,10 +77,19 @@ class Post(Model):
 
     @property
     def total_score(self):
-        query = PostScore.objects.filter(post=self)
-        upvotes = query.filter(upvote=True).count()
-        downvotes = query.filter(upvote=False).count()
-        return upvotes - downvotes
+        return (
+            PostScore.objects.filter(post=self).aggregate(
+                score=Sum(
+                    Case(
+                        When(upvote=True, then=1),
+                        When(upvote=False, then=-1),
+                        default=0,
+                        output_field=IntegerField(),
+                    )
+                )
+            )["score"]
+            or 0
+        )
 
 
 class Comment(TreeNode):

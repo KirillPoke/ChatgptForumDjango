@@ -14,10 +14,9 @@ from django.db.models import (
     EmailField,
     ManyToManyField,
     Sum,
-    Case,
-    When,
-    IntegerField,
+    F,
 )
+from django.db.models.functions import Coalesce
 from random_username.generate import generate_username
 from tree_queries.models import TreeNode
 
@@ -77,19 +76,10 @@ class Post(Model):
 
     @property
     def total_score(self):
-        return (
-            PostScore.objects.filter(post=self).aggregate(
-                score=Sum(
-                    Case(
-                        When(upvote=True, then=1),
-                        When(upvote=False, then=-1),
-                        default=0,
-                        output_field=IntegerField(),
-                    )
-                )
-            )["score"]
-            or 0
-        )
+        score = PostScore.objects.filter(post=self).aggregate(
+            score=Coalesce(Sum(F("upvote") * 2 - 1), 0)  # Converts True/False to 1/-1
+        )["score"]
+        return score
 
 
 class Comment(TreeNode):

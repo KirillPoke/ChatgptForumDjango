@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 import openai
 from dotenv import find_dotenv, load_dotenv
+from socket import gethostbyname
+from socket import gethostname
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -224,6 +226,7 @@ ALLOWED_HOSTS = [
     "www.kirillras.net",
     "localhost",
     "127.0.0.1",
+    gethostbyname(gethostname()),
 ]
 SITE_ID = 1
 

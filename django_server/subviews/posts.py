@@ -1,4 +1,3 @@
-from django.db.models import F
 from django_auto_prefetching import AutoPrefetchViewSetMixin
 from rest_framework.viewsets import ModelViewSet
 
@@ -14,11 +13,11 @@ class PostViewSet(AutoPrefetchViewSetMixin, ModelViewSet):
 
     def get_queryset(self):
         queryset = super(AutoPrefetchViewSetMixin, self).get_queryset()
-        queryset = (
-            queryset.prefetch_related("author").all().annotate(author=F("author__name"))
-        )
+        queryset = queryset.prefetch_related("author").all()
         query_params = self.request.query_params.dict()
         if "page" in query_params:
             del query_params["page"]
+        if "query" in query_params:
+            del query_params["query"]
         queryset = queryset.filter(**query_params)
         return queryset

@@ -1,3 +1,4 @@
+from django_restql.mixins import DynamicFieldsMixin
 from rest_framework.fields import ReadOnlyField, CharField
 from rest_framework.serializers import ModelSerializer
 
@@ -5,7 +6,7 @@ from django_server.models import Post
 
 
 # test
-class PostSerializer(ModelSerializer):
+class PostSerializer(DynamicFieldsMixin, ModelSerializer):
     id = ReadOnlyField()
     created_at = ReadOnlyField()
     author = CharField(source="author.name", read_only=True)

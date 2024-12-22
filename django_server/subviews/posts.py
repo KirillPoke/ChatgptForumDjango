@@ -15,9 +15,12 @@ class PostViewSet(AutoPrefetchViewSetMixin, ModelViewSet):
         queryset = super(AutoPrefetchViewSetMixin, self).get_queryset()
         queryset = queryset.prefetch_related("author").all()
         query_params = self.request.query_params.dict()
+
         if "page" in query_params:
             del query_params["page"]
-        if "query" in query_params:
-            del query_params["query"]
+
+        if "fields" in query_params:
+            del query_params["fields"]
+
         queryset = queryset.filter(**query_params)
         return queryset

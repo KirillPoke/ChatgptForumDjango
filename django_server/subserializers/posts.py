@@ -2,10 +2,11 @@ from rest_framework.fields import ReadOnlyField, CharField
 from rest_framework.serializers import ModelSerializer
 
 from django_server.models import Post
+from django_server.subserializers.mixins.selected_fields import SelectedFieldsMixin
 
 
 # test
-class PostSerializer(ModelSerializer):
+class PostSerializer(SelectedFieldsMixin, ModelSerializer):
     id = ReadOnlyField()
     created_at = ReadOnlyField()
     author = CharField(source="author.name", read_only=True)

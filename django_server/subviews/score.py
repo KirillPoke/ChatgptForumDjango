@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django_auto_prefetching import AutoPrefetchViewSetMixin
 from rest_framework import status
 from rest_framework.decorators import action
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.viewsets import ModelViewSet
 
 from django_server.filters.score import PostScoreFilter
@@ -10,16 +11,19 @@ from django_server.subserializers.score import (
     CommentScoreSerializer,
     PostScoreSerializer,
 )
+from django_server.subviews.mixins.count import PostScoreCountMixin
 
 
 class ScoreViewSet(AutoPrefetchViewSetMixin, ModelViewSet):
     def get_queryset(self):
         queryset = super(AutoPrefetchViewSetMixin, self).get_queryset()
         query_params = self.request.GET.copy()
-        if self.request.user.is_authenticated:
-            query_params["user"] = self.request.user.id
-        else:
-            query_params["user"] = None
+        if "user_id" in query_params:
+            if self.request.user.is_authenticated:
+                if query_params["user_id"] != self.request.user.id:
+                    raise PermissionDenied
+            else:
+                raise PermissionDenied
         queryset = PostScoreFilter(data=query_params, queryset=queryset).filter()
         return queryset
 
@@ -50,6 +54,6 @@ class CommentScoreViewSet(ScoreViewSet):
     serializer_class = CommentScoreSerializer
 
 
-class PostScoreViewSet(ScoreViewSet):
+class PostScoreViewSet(ScoreViewSet, PostScoreCountMixin):
     queryset = PostScore.objects.all()
     serializer_class = PostScoreSerializer
